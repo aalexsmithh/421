@@ -56,7 +56,7 @@ def generateemployees():
 		fn = np.random.choice(firstnames)
 		ln = np.random.choice(lastnames)
 
-		print 'insert into orders values (%s, "%s", "%s")' % (employeeno, fn, ln)
+		print 'insert into employees values (%s, "%s", "%s")' % (employeeno, fn, ln)
 
 def generatedeliveryvehicle():
 	license = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","1","2","3","4","5","6","7","8","9"," "]
@@ -69,4 +69,5 @@ def generatedeliveryvehicle():
 		
 		print 'insert into deliveryvehicles values ("%s")' % (out)
 
-generatedeliveryvehicle()
+generateemployees()
+
