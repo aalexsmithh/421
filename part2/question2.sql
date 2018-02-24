@@ -12,4 +12,4 @@ create table transactions(transactionID int PRIMARY KEY, amount real, transactio
 
 create table shifts(shiftDate date, employeeID int, wage real, hours real);
 
-create table deliveryvehicles(licenseNo int PRIMARY KEY);
+create table deliveryvehicles(licenseNo char(7) PRIMARY KEY);
