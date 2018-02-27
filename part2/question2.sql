@@ -14,7 +14,7 @@ create table deliverydrivers(employeeID int NOT NULL PRIMARY KEY, FOREIGN KEY(em
 
 create table orders(orderNo int NOT NULL PRIMARY KEY, memberNo int NOT NULL, total real NOT NULL, toBeDelivered boolean, driverID int, FOREIGN KEY(memberNo) REFERENCES customers(memberNo), FOREIGN KEY(driverID) REFERENCES deliverydrivers(employeeID));
 
-create table ordercontents(orderNo int NOT NULL, pName text NOT NULL, quantity int NOT NULL, FOREIGN KEY(orderNo) REFERENCES orders(orderNo), FOREIGN KEy(pName) REFERENCES items(name), PRIMARY KEY(orderNo, pName));
+create table ordercontents(orderNo int NOT NULL, pName text NOT NULL, quantity int NOT NULL, FOREIGN KEY(orderNo) REFERENCES orders(orderNo), FOREIGN KEY(pName) REFERENCES items(name), PRIMARY KEY(orderNo, pName));
 
 create table couponRedeems(couponCode int NOT NULL, orderNo int NOT NULL, FOREIGN KEY(couponCode) REFERENCES coupons(couponCode), FOREIGN KEY(orderNo) REFERENCES orders(orderNo), PRIMARY KEY (couponCode, orderNo));
 
