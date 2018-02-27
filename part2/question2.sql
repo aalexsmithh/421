@@ -20,6 +20,6 @@ create table couponRedeems(couponCode int NOT NULL, orderNo int NOT NULL, FOREIG
 
 create table transactions(transactionID int NOT NULL PRIMARY KEY, amount real NOT NULL, transactionDate date NOT NULL, cashierID int, FOREIGN KEY(cashierID) REFERENCES cashiers(employeeID));
 
-create table shifts(shiftDate date NOT NULL, employeeID int NOT NULL, wageID int NOT NULL, managerID int NOT NULL, FOREIGN KEY(employeeID) REFERENCES employees(employeeID), FOREIGN KEY(wageID) REFERENCES transactions(transactionID), FOREIGN KEY(managerID) REFERENCES managers(employeeID), PRIMARY KEY(shiftDate, employeeID));
+create table shifts(shiftDate date NOT NULL, employeeID int NOT NULL, wage real NOT NULL, managerID int NOT NULL, FOREIGN KEY(employeeID) REFERENCES employees(employeeID), FOREIGN KEY(wageID) REFERENCES transactions(transactionID), FOREIGN KEY(managerID) REFERENCES managers(employeeID), PRIMARY KEY(shiftDate, employeeID));
 
 create table deliveryvehicles(licenseNo char(7) NOT NULL PRIMARY KEY, currentdriverID int NOT NULL, FOREIGN KEY(currentDriverID) REFERENCES deliverydrivers(employeeID));
