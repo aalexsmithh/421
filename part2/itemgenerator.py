@@ -108,6 +108,22 @@ def generatecoupons():
 
 		print '%s,%s,%s,%s,%s' % (str(code), str(pName), str(dsct_p), str(start_d), str(end_d))
 
+def generatecouponRedeems():
+	# couponRedeems(couponCode int, orderNo int)
+	with open('csv/ordercontents.csv', 'rb') as f:
+		reader = csv.reader(f)
+		ordercontents = np.array(list(reader))
+	with open('csv/coupons.csv', 'rb') as f:
+		reader = csv.reader(f)
+		coupons = np.array(list(reader))
+
+	for item in ordercontents:
+		for c in coupons:
+			if item[1] == c[1]:
+				orderNo = item[0]
+				couponCode = c[0]
+				print '%s,%s' % (str(couponCode), str(orderNo))
+
 ##########################################
 ## 			ORDERS & ITEMS				##
 ##########################################
@@ -179,5 +195,5 @@ def generateorders():
 		generatetransaction(i, total)
 		print
 
-generateshifts()
+generatecouponRedeems()
 
