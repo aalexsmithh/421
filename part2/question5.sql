@@ -3,10 +3,10 @@ SELECT amount
 FROM transactions
 WHERE amount>0 AND transactionDate='2018-03-01';
 
-/*membership numbers of customers who have bought at least 3 Rice Bran Gluten Free Mini Baguette in a single order*/
+/*membership numbers of customers who have bought at least 1 Rice Bran Gluten Free Mini Baguette in a single order*/
 SELECT O.memberNo
 FROM orders O, ordercontents C
-WHERE O.orderNo = C.orderNo AND C.pName='Rice Bran Gluten Free Mini Baguette' AND C.quantity>=3;
+WHERE O.orderNo = C.orderNo AND C.pName='Rice Bran Gluten Free Mini Baguette' AND C.quantity>=1;
 
 /*the licenses of all delivery vehicle used while a certain manager ID 1296 was active*/
 SELECT DV.licenseNo
