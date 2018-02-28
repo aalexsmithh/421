@@ -1,0 +1,7 @@
+Attached is itemgenerator.py that automatically generates realistic fake data for all the tables in our project. Any table that can realistically contain more than 100 values (items, ordercontents) has been filled with the required number of entries, but this tool can be extended for any number of entries on any of the tables. 
+
+Grocery items were found in this database: https://www.grocery.com/open-grocery-database-project/
+
+Names come from the Wikipedia list for most common names in North American and Quebec.
+
+Everything else is generated randomly using numpy, or is sequential from some starting value.
