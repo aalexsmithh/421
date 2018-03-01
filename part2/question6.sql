@@ -10,3 +10,7 @@ UPDATE shifts SET wage = wage + .5 WHERE employeeID IN (SELECT employeeID FROM c
 
 UPDATE orders SET total = total - 5 WHERE total > 200;
 
+/* each delivery drivers receives a 10% tip for gas a day after any given shift */
+
+INSERT INTO shifts 
+(SELECT shiftdate+1, employeeid, TRUNC(wage/10), managerid FROM shifts WHERE employeeid IN (SELECT * FROM deliverydrivers));
