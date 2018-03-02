@@ -16,7 +16,7 @@ WHERE S.managerID='1296' AND S.employeeID=DV.currentdriverID;
 /*all the addresses that driver ID 1271 has delivered to*/
 SELECT c.address
 FROM customers C, orders O
-WHERE C.memberNo = O.orderNo AND O.driverID='1271';
+WHERE C.memberNo = O.memberNo AND O.driverID='1271';
 
 /*all the names of items customers with first name Emily have bought with a coupon */
 SELECT C.pName
