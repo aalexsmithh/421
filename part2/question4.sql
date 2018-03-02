@@ -16,7 +16,7 @@
 
 \COPY ordercontents(orderNo, pName, quantity) FROM 'csv/ordercontents.csv' DELIMITER ',' CSV;
 
-\COPY couponRedeems(couponCode, orderNo) FROM 'csv/couponRedeems.csv' DELIMITER ',' CSV;
+\COPY couponRedeems(couponCode, orderNo) FROM 'csv/couponredeems.csv' DELIMITER ',' CSV;
 
 \COPY transactions(transactionID, amount, transactionDate, cashierID) FROM 'csv/transactions.csv' DELIMITER ',' CSV;
 
