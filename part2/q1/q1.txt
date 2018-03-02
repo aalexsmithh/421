@@ -1,0 +1,27 @@
+Modified Relational Schema
+
+Items (keys: pName, price)
+
+Customer (keys: memberNo, firstName, lastName, address, expiry)
+
+Coupon (keys: couponCode, pName, discountPct, startDate, endDate) pName references Item
+
+Employee (keys: employeeID, firstName, lastName)
+
+Manager(keys: employeeID) EmployeeID references Employee
+
+Cashier(keys: employeeID) EmployeeID references Employee
+
+DeliveryDriver(keys: employeeID) EmployeeID references Employee
+
+Order (keys: orderNo, memberNo, total, toBeDelivered, driverID) memberNo references Customer, driverID references Employee
+
+OrderContents (keys: orderNo, pName, quantity) orderNo references Order, pName references Item
+
+CouponRedeems (keys: couponCode, orderNo) orderNo references Order, couponCode references Coupon
+
+Transaction (keys: transactionID, amount, date, cashierID) cashierID references Cashier
+
+Shift (keys: date, employeeID, wageID, managerID) employeeID references Employee, wageID references Transaction, managerID reference Manager
+
+DeliveryVehicle (keys: licenseNo, currentDriverID) currentDriverID references Employees
