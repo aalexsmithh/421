@@ -16,3 +16,22 @@ create view largeTransactions as
 SELECT *
 FROM orders
 WHERE total > 200;
+
+
+/* From w3resource.com, the conditions for updating a view are:
+1. The view is defined based on one and only one table.
+
+2. The view must include the PRIMARY KEY of the table based upon which the view has been created.
+
+3. The view should not have any field made out of aggregate functions.
+
+4. The view must not have any DISTINCT clause in its definition.
+
+5. The view must not have any GROUP BY or HAVING clause in its definition.
+
+6. The view must not have any SUBQUERIES in its definitions.
+
+7. If the view you want to update is based upon another view, the later should be updatable.
+
+8. Any of the selected output fields (of the view) must not use constants, strings or value expressions.
+*/

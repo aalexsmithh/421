@@ -1,0 +1,38 @@
+ orderno | memberno | total  | tobedelivered | driverid 
+---------+----------+--------+---------------+----------
+       6 |     1096 |  243.3 | f             |     1255
+      14 |     1031 | 235.36 | t             |     1260
+      19 |     1091 | 228.12 | f             |     1274
+      22 |     1059 | 254.84 | f             |     1259
+(4 rows)
+
+ memberno | firstname | lastname  | grandtotal 
+----------+-----------+-----------+------------
+     1004 | Noah      | Butler    |     169.95
+     1005 | Beatrice  | Wilson    |     193.43
+     1008 | Alexis    | Ortiz     |     190.98
+     1025 | Isabella  | Miller    |     260.01
+     1027 | Emma      | Gonzalez  |     239.77
+     1028 | Zoe       | Gonzalez  |      164.6
+     1031 | Samuel    | Davis     |     235.36
+     1032 | Lucas     | Davis     |     104.29
+     1035 | Noah      | Brown     |      57.86
+     1036 | Isabella  | Brown     |      40.47
+     1039 | Alice     | Gonzalez  |     121.47
+     1045 | Thomas    | Hernandez |      98.53
+     1051 | Emily     | Williams  |      20.67
+     1055 | Rosalie   | Mora      |      62.31
+     1059 | Ethan     | Roy       |     254.84
+     1063 | Zoe       | Ortiz     |     109.69
+     1067 | Felix     | Rodriguez |     115.95
+     1080 | Alexis    | Gagnon    |      91.93
+     1081 | Noah      | Gonzalez  |     197.04
+     1091 | Zoe       | Gagnon    |     228.12
+     1095 | Charlotte | Davis     |     159.42
+     1096 | Beatrice  | Davis     |      243.3
+(22 rows)
+
+UPDATE 4
+ERROR:  cannot update view "percustomerrevenue"
+DETAIL:  Views that do not select from a single table or view are not automatically updatable.
+HINT:  To enable updating the view, provide an INSTEAD OF UPDATE trigger or an unconditional ON UPDATE DO INSTEAD rule.
