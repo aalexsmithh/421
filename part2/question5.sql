@@ -18,7 +18,7 @@ SELECT c.address
 FROM customers C, orders O
 WHERE C.memberNo = O.memberNo AND O.driverID='1271';
 
-/*all the names of items customers with first name Emily have bought with a coupon */
+/*all the names of items customers with first name Charlottehave bought with a coupon */
 SELECT C.pName
 FROM (
 	SELECT O.orderNo
