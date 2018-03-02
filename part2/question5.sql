@@ -23,6 +23,6 @@ SELECT C.pName
 FROM (
 	SELECT O.orderNo
 	FROM orders O, customers C
-	WHERE O.memberNo = C.memberNo AND C.firstName='Emily'
+	WHERE O.memberNo = C.memberNo AND C.firstName='Charlotte'
 	) O, coupons C, couponRedeems CR
 WHERE O.orderNo = CR.orderNo AND CR.couponCode = C.couponCode;
