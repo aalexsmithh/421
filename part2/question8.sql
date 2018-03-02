@@ -1,6 +1,6 @@
 create table coupons(couponCode int NOT NULL PRIMARY KEY,
 	pName text NOT NULL,
-	discountPct int NOT NULL CHECK (discountPct % 5 == 0),
+	discountPct int NOT NULL CHECK (discountPct % 5 = 0),
 	startDate date NOT NULL,
 	endDate date NOT NULL,
 	FOREIGN KEY(pName) REFERENCES items(name));
