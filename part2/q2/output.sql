@@ -1,0 +1,15 @@
+\d cashiers           
+\d couponredeems      
+\d coupons            
+\d customers          
+\d deliverydrivers    
+\d deliveryvehicles   
+\d employees          
+\d items              
+\d largetransactions  
+\d managers           
+\d ordercontents      
+\d orders             
+\d percustomerrevenue 
+\d shifts             
+\d transactions       

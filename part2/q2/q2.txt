@@ -1,0 +1,179 @@
+    Table "cs421g40.cashiers"
+   Column   |  Type   | Modifiers 
+------------+---------+-----------
+ employeeid | integer | not null
+Indexes:
+    "cashiers_pkey" PRIMARY KEY, btree (employeeid)
+Foreign-key constraints:
+    "cashiers_employeeid_fkey" FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
+Referenced by:
+    TABLE "transactions" CONSTRAINT "transactions_cashierid_fkey" FOREIGN KEY (cashierid) REFERENCES cashiers(employeeid)
+
+  Table "cs421g40.couponredeems"
+   Column   |  Type   | Modifiers 
+------------+---------+-----------
+ couponcode | integer | not null
+ orderno    | integer | not null
+Indexes:
+    "couponredeems_pkey" PRIMARY KEY, btree (couponcode, orderno)
+Foreign-key constraints:
+    "couponredeems_couponcode_fkey" FOREIGN KEY (couponcode) REFERENCES coupons(couponcode)
+    "couponredeems_orderno_fkey" FOREIGN KEY (orderno) REFERENCES orders(orderno)
+
+     Table "cs421g40.coupons"
+   Column    |  Type   | Modifiers 
+-------------+---------+-----------
+ couponcode  | integer | not null
+ pname       | text    | not null
+ discountpct | integer | not null
+ startdate   | date    | not null
+ enddate     | date    | not null
+Indexes:
+    "coupons_pkey" PRIMARY KEY, btree (couponcode)
+Foreign-key constraints:
+    "coupons_pname_fkey" FOREIGN KEY (pname) REFERENCES items(name)
+Referenced by:
+    TABLE "couponredeems" CONSTRAINT "couponredeems_couponcode_fkey" FOREIGN KEY (couponcode) REFERENCES coupons(couponcode)
+
+   Table "cs421g40.customers"
+  Column   |  Type   | Modifiers 
+-----------+---------+-----------
+ memberno  | integer | not null
+ firstname | text    | not null
+ lastname  | text    | not null
+ address   | text    | not null
+ expiry    | date    | not null
+Indexes:
+    "customers_pkey" PRIMARY KEY, btree (memberno)
+Referenced by:
+    TABLE "orders" CONSTRAINT "orders_memberno_fkey" FOREIGN KEY (memberno) REFERENCES customers(memberno)
+
+ Table "cs421g40.deliverydrivers"
+   Column   |  Type   | Modifiers 
+------------+---------+-----------
+ employeeid | integer | not null
+Indexes:
+    "deliverydrivers_pkey" PRIMARY KEY, btree (employeeid)
+Foreign-key constraints:
+    "deliverydrivers_employeeid_fkey" FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
+Referenced by:
+    TABLE "deliveryvehicles" CONSTRAINT "deliveryvehicles_currentdriverid_fkey" FOREIGN KEY (currentdriverid) REFERENCES deliverydrivers(employeeid)
+    TABLE "orders" CONSTRAINT "orders_driverid_fkey" FOREIGN KEY (driverid) REFERENCES deliverydrivers(employeeid)
+
+     Table "cs421g40.deliveryvehicles"
+     Column      |     Type     | Modifiers 
+-----------------+--------------+-----------
+ licenseno       | character(7) | not null
+ currentdriverid | integer      | not null
+Indexes:
+    "deliveryvehicles_pkey" PRIMARY KEY, btree (licenseno)
+Foreign-key constraints:
+    "deliveryvehicles_currentdriverid_fkey" FOREIGN KEY (currentdriverid) REFERENCES deliverydrivers(employeeid)
+
+    Table "cs421g40.employees"
+   Column   |  Type   | Modifiers 
+------------+---------+-----------
+ employeeid | integer | not null
+ firstname  | text    | not null
+ lastname   | text    | not null
+Indexes:
+    "employees_pkey" PRIMARY KEY, btree (employeeid)
+Referenced by:
+    TABLE "cashiers" CONSTRAINT "cashiers_employeeid_fkey" FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
+    TABLE "deliverydrivers" CONSTRAINT "deliverydrivers_employeeid_fkey" FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
+    TABLE "managers" CONSTRAINT "managers_employeeid_fkey" FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
+    TABLE "shifts" CONSTRAINT "shifts_employeeid_fkey" FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
+
+  Table "cs421g40.items"
+ Column | Type | Modifiers 
+--------+------+-----------
+ name   | text | not null
+ price  | real | not null
+Indexes:
+    "items_pkey" PRIMARY KEY, btree (name)
+Referenced by:
+    TABLE "coupons" CONSTRAINT "coupons_pname_fkey" FOREIGN KEY (pname) REFERENCES items(name)
+    TABLE "ordercontents" CONSTRAINT "ordercontents_pname_fkey" FOREIGN KEY (pname) REFERENCES items(name)
+
+  View "cs421g40.largetransactions"
+    Column     |  Type   | Modifiers 
+---------------+---------+-----------
+ orderno       | integer | 
+ memberno      | integer | 
+ total         | real    | 
+ tobedelivered | boolean | 
+ driverid      | integer | 
+
+    Table "cs421g40.managers"
+   Column   |  Type   | Modifiers 
+------------+---------+-----------
+ employeeid | integer | not null
+Indexes:
+    "managers_pkey" PRIMARY KEY, btree (employeeid)
+Foreign-key constraints:
+    "managers_employeeid_fkey" FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
+Referenced by:
+    TABLE "shifts" CONSTRAINT "shifts_managerid_fkey" FOREIGN KEY (managerid) REFERENCES managers(employeeid)
+
+ Table "cs421g40.ordercontents"
+  Column  |  Type   | Modifiers 
+----------+---------+-----------
+ orderno  | integer | not null
+ pname    | text    | not null
+ quantity | integer | not null
+Indexes:
+    "ordercontents_pkey" PRIMARY KEY, btree (orderno, pname)
+Foreign-key constraints:
+    "ordercontents_orderno_fkey" FOREIGN KEY (orderno) REFERENCES orders(orderno)
+    "ordercontents_pname_fkey" FOREIGN KEY (pname) REFERENCES items(name)
+
+       Table "cs421g40.orders"
+    Column     |  Type   | Modifiers 
+---------------+---------+-----------
+ orderno       | integer | not null
+ memberno      | integer | not null
+ total         | real    | not null
+ tobedelivered | boolean | 
+ driverid      | integer | 
+Indexes:
+    "orders_pkey" PRIMARY KEY, btree (orderno)
+Foreign-key constraints:
+    "orders_driverid_fkey" FOREIGN KEY (driverid) REFERENCES deliverydrivers(employeeid)
+    "orders_memberno_fkey" FOREIGN KEY (memberno) REFERENCES customers(memberno)
+Referenced by:
+    TABLE "couponredeems" CONSTRAINT "couponredeems_orderno_fkey" FOREIGN KEY (orderno) REFERENCES orders(orderno)
+    TABLE "ordercontents" CONSTRAINT "ordercontents_orderno_fkey" FOREIGN KEY (orderno) REFERENCES orders(orderno)
+
+View "cs421g40.percustomerrevenue"
+   Column   |  Type   | Modifiers 
+------------+---------+-----------
+ memberno   | integer | 
+ firstname  | text    | 
+ lastname   | text    | 
+ grandtotal | real    | 
+
+     Table "cs421g40.shifts"
+   Column   |  Type   | Modifiers 
+------------+---------+-----------
+ shiftdate  | date    | not null
+ employeeid | integer | not null
+ wage       | real    | not null
+ managerid  | integer | not null
+Indexes:
+    "shifts_pkey" PRIMARY KEY, btree (shiftdate, employeeid)
+Foreign-key constraints:
+    "shifts_employeeid_fkey" FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
+    "shifts_managerid_fkey" FOREIGN KEY (managerid) REFERENCES managers(employeeid)
+
+     Table "cs421g40.transactions"
+     Column      |  Type   | Modifiers 
+-----------------+---------+-----------
+ transactionid   | integer | not null
+ amount          | real    | not null
+ transactiondate | date    | not null
+ cashierid       | integer | 
+Indexes:
+    "transactions_pkey" PRIMARY KEY, btree (transactionid)
+Foreign-key constraints:
+    "transactions_cashierid_fkey" FOREIGN KEY (cashierid) REFERENCES cashiers(employeeid)
+

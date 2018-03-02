@@ -1,0 +1,129 @@
+cashiers
+ employeeid 
+------------
+       1249
+       1250
+       1251
+       1252
+       1253
+(5 rows)
+
+couponredeems
+ couponcode | orderno 
+------------+---------
+       1027 |       1
+       1020 |       1
+       1041 |       2
+       1032 |       3
+       1020 |       3
+(5 rows)
+
+coupons
+ couponcode |                                  pname                                   | discountpct | startdate  |  enddate   
+------------+--------------------------------------------------------------------------+-------------+------------+------------
+       1017 | Perry's Ice Cream Panda Paws                                             |          22 | 2018-02-10 | 2018-03-01
+       1018 | Halls Menthol Cough Suppresant/oral Anesthetic Drops Honey-lemon - 30 Ct |          40 | 2018-02-12 | 2018-03-03
+       1022 | Earth's Best Organic Fruit Yogurt Smoothie Mixed Berry                   |          31 | 2018-02-13 | 2018-03-04
+       1000 | Dr. Scholl's For Her Rub Relief Strips                                   |          12 | 2018-03-19 | 2018-03-31
+       1001 | Scotch Removable Clear Mounting Squares - 35 Ct                          |          25 | 2018-02-08 | 2018-02-20
+(5 rows)
+
+customers
+ memberno | firstname | lastname |             address              |   expiry   
+----------+-----------+----------+----------------------------------+------------
+     1001 | Beatrice  | Wilson   | 232 Guy Street,Montreal          | 2019-02-20
+     1002 | Nathan    | Wilson   | 232 Guy Street,Montreal          | 2019-02-20
+     1003 | Jacob     | Butler   | 204 Langelier Boulevard,Montreal | 2018-03-17
+     1004 | Noah      | Butler   | 204 Langelier Boulevard,Montreal | 2018-03-17
+     1005 | Beatrice  | Wilson   | 49 Peel Street,Montreal          | 2018-08-25
+(5 rows)
+
+deliverydrivers
+ employeeid 
+------------
+       1271
+       1278
+       1255
+       1259
+       1260
+(5 rows)
+
+deliveryvehicles
+ licenseno | currentdriverid 
+-----------+-----------------
+ 3M79LJ6   |            1271
+ DJEL5 8   |            1278
+ BLC5FD1   |            1255
+ G2 N4A9   |            1259
+ M8ALHE    |            1260
+(5 rows)
+
+employees
+ employeeid | firstname | lastname  
+------------+-----------+-----------
+       1247 | Lily      | Hernandez
+       1248 | Nathan    | Lam
+       1249 | Thomas    | Diaz
+       1250 | Samuel    | Gonzalez
+       1251 | Emily     | Perry
+(5 rows)
+
+items
+                            name                             | price 
+-------------------------------------------------------------+-------
+ Riceland American Jazmine Rice                              |  7.21
+ Caress Velvet Bliss Ultra Silkening Beauty Bar - 6 Ct       | 19.31
+ Earth's Best Organic Fruit Yogurt Smoothie Mixed Berry      |  6.51
+ Boar's Head Sliced White American Cheese - 120 Ct           |  5.64
+ Back To Nature Gluten Free White Cheddar Rice Thin Crackers |  8.74
+(5 rows)
+
+managers
+ employeeid 
+------------
+       1247
+       1296
+       1287
+       1265
+(4 rows)
+
+ordercontents
+ orderno |                                               pname                                               | quantity 
+---------+---------------------------------------------------------------------------------------------------+----------
+       0 | Ferrara Vanilla Syrup                                                                             |        1
+       0 | Sundown Naturals Essential Electrolytes Tropical Punch,Watermelon And Fruit Punch Gummies - 60 Ct |        1
+       0 | Goody Ouchless No Metal Elastics - 29 Ct                                                          |        1
+       0 | Suave Naturals Moisturizing Body Wash Creamy Tropical Coconut                                     |        1
+       0 | Campbell's Soup On The Go Chicken & Star Shaped Pasta Soup                                        |        1
+(5 rows)
+
+orders
+ orderno | memberno | total  | tobedelivered | driverid 
+---------+----------+--------+---------------+----------
+       0 |     1004 | 169.95 | f             |     1260
+       1 |     1028 |  164.6 | t             |     1274
+       2 |     1045 |  98.53 | t             |     1255
+       3 |     1063 | 109.69 | f             |     1271
+       4 |     1005 | 193.43 | f             |     1271
+(5 rows)
+
+shifts
+ shiftdate  | employeeid | wage  | managerid 
+------------+------------+-------+-----------
+ 2018-02-02 |       1247 | 16.97 |      1247
+ 2018-02-03 |       1296 | 20.93 |      1296
+ 2018-02-02 |       1287 | 33.88 |      1287
+ 2018-02-01 |       1265 | 26.43 |      1265
+ 2018-02-03 |       1271 | 34.54 |      1247
+(5 rows)
+
+transactions
+ transactionid | amount | transactiondate | cashierid 
+---------------+--------+-----------------+-----------
+             0 | 169.95 | 2018-03-01      |      1250
+             1 |  164.6 | 2018-02-12      |      1252
+             2 |  98.53 | 2018-03-01      |      1268
+             3 | 109.69 | 2018-02-18      |      1268
+             4 | 193.43 | 2018-03-01      |      1252
+(5 rows)
+
