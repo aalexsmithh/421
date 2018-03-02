@@ -1,5 +1,5 @@
-insert into managers VALUES(1247);
-insert into managers VALUES(1248);
-insert into managers VALUES(1249);
-insert into managers VALUES(1250);
-insert into managers VALUES(1251);
+insert into employees VALUES(8001, 'Justin', 'Bell');
+insert into employees VALUES(8002, 'Alex', 'Reiff');
+insert into employees VALUES(8003, 'Alex', 'Smith');
+insert into employees VALUES(8004, 'Jason', 'Galet');
+insert into employees VALUES(8005, 'Johnny', 'Appleseed');
