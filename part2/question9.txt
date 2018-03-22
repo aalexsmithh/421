@@ -5,3 +5,5 @@ Grocery items were found in this database: https://www.grocery.com/open-grocery-
 Names come from the Wikipedia list for most common names in North American and Quebec.
 
 Everything else is generated randomly using numpy, or is sequential from some starting value.
+
+A complex analytical query implemented is in the percustomerrevenue view where we aggregrate the totals of all customer orders to display the revenue of each customer.
