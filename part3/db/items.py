@@ -9,5 +9,7 @@ class Item:
 
     def add(self, name, price):
         with self._db.cursor() as cur:
-            cur.execute("INSERT INTO items (%s, %s)",
+            cur.execute("""INSERT INTO items (name, price)
+                           VALUES (%s, %s)""",
                         (name, price))
+            self._db.commit()
