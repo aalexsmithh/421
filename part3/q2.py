@@ -3,7 +3,7 @@
 from config import get_config
 from db import DB
 from ui import welcome_msg, main_action, add_customer, add_item, \
-               add_employee, add_order
+               add_employee, add_order, monthly_revenue
 
 CONFIG_FNAME = 'config.dev.json'
 
@@ -28,6 +28,8 @@ def main():
                 add_employee(db)
             elif action == 'add order':
                 add_order()
+            elif action == 'monthly revenue':
+                monthly_revenue(db)
             else:
                 # should never happen
                 break

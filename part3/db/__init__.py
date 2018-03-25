@@ -3,6 +3,7 @@ import psycopg2
 
 from items import Item
 from employees import Employee
+from transactions import Transaction
 
 
 class DB:
