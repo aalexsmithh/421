@@ -3,6 +3,10 @@
 from pimento import menu
 import time
 
+from config import get_config
+
+CONFIG_FNAME = 'config.dev.json'
+
 def welcome_msg():
 	print '##############################################'
 	print '\tWELCOME TO GROCERY MASTER 3000'
@@ -32,6 +36,10 @@ def add_order():
 
 def main():
 	quit = False
+        
+        c = get_config(CONFIG_FNAME)
+        print(c)
+
 	welcome_msg()
 
 	while 1:

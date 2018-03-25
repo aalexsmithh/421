@@ -1,3 +1,8 @@
 # python
 .env
 *.pyc
+
+# secrets
+config.json
+config.dev.json
+config.prod.json
