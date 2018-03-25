@@ -1,6 +1,12 @@
+#!/usr/bin/env python2
+
 from pimento import menu
 import time
 from datetime import date
+
+from config import get_config
+
+CONFIG_FNAME = 'config.dev.json'
 
 def welcome_msg():
 	print '##############################################'
@@ -52,6 +58,10 @@ def add_to_db(db,data):
 
 def main():
 	quit = False
+        
+        c = get_config(CONFIG_FNAME)
+        print(c)
+
 	welcome_msg()
 
 	while 1:
