@@ -1,0 +1,1 @@
+\copy (select memberNo, firstName, lastName, address, expiry from customers) to customers.csv with csv
