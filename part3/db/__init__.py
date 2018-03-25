@@ -1,5 +1,7 @@
 import psycopg2
 
+from items import Item
+
 
 class DB:
     def __init__(self, dbconfig=None):
@@ -11,6 +13,9 @@ class DB:
 
     def close(self):
         self._conn.close()
+
+    def commit(self):
+        self._conn.commit()
 
     def cursor(self):
         return self._conn.cursor()
