@@ -25,14 +25,12 @@ def main():
             elif action == 'add item':
                 add_item(db)
             elif action == 'add employee':
-                add_employee()
+                add_employee(db)
             elif action == 'add order':
                 add_order()
             else:
                 # should never happen
                 break
-    except Exception as e:
-        raise e
     finally:
         db.close()
 
