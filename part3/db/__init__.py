@@ -12,10 +12,8 @@ class DB:
     def close(self):
         self._conn.close()
 
-    def item(self):
-        with self._conn.cursor() as cur:
-            cur.execute("SELECT * FROM items;")
-            return cur.fetchone()
+    def cursor(self):
+        return self._conn.cursor()
 
     def orders(self):
         with self._conn.cursor() as cur:

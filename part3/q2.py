@@ -7,8 +7,9 @@ from pimento import menu
 
 from config import get_config
 from db import DB
+from db.orders import Order
 
-CONFIG_FNAME = 'config.prod.json'
+CONFIG_FNAME = 'config.dev.json'
 
 
 def welcome_msg():
@@ -69,14 +70,12 @@ def add_to_db(db, data):
 
 def main():
     c = get_config(CONFIG_FNAME)
-    print(c)
-
     db = DB(c['database'])
 
     try:
         db.connect()
-        item = db.item()
-        print(item)
+        order = Order(db)
+        print(order.get())
     except Exception as e:
         raise e
     finally:
