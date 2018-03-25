@@ -1,1 +1,3 @@
+autopep8==1.3.4
 pimento==0.7.1
+pycodestyle==2.3.1
