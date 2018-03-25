@@ -1,10 +1,11 @@
 from pimento import menu
 from config import get_config
 from db import DB
+import numpy as np
 
 CONFIG_FNAME = 'config.prod.json'
 
-def add_order():
+def add_order(db):
     '''
     orderNo int
     memberNo int
@@ -17,47 +18,44 @@ def add_order():
     '''
 
     # get latest order no from db
-    # orders = db.orders()
-    # order_num = max(orders) + 1
+    orders = np.asarray(db.orders())
+    order_num = max(orders[:,0]) + 1
 
     # get and check member number
     correct_member_no = False
-    members = db.members()
+    members = np.asarray(db.members())
     while not correct_member_no:
-        member_no = input("Member number for this order:")
-        if member_no not in members:
+        member_no = input("Member number for this order: ")
+        if member_no not in members[:,0]:
             print "Sorry that is an invalid member number"
         else:
-            print "Found member %s" % (members[member_no].name)
+            i, _ = np.where(members == member_no)
+            name = members[i,1] + ' ' + members[i,2]
+            address = members[i,3]
+            print "Found member: %s, living at %s" % (name[0], address[0i])
             correct_member_no = True
 
     # get order total
     valid_total = False
     while not valid_total:
         try:
-            total = float(raw_input("Order total ($):"))
+            total = float(raw_input("Order total ($): "))
             valid_total = True
         except ValueError:
             print "Please only use numbers in the total"
 
     # is this a delivery?
-    valid_delivery = False
-    while not valid_delivery:
-        delivery = raw_input("Is this a delivery (y/n)?:")
-        if delivery == 'y' or delivery == 'Y':
-            delivery = True
-            valid_delivery = True
-        elif delivery == 'n' or delivery =='N':
-            delivery = False
-            valid_delivery = True
-        else:
-            print 'Only use y or n.'
+    delivery = menu(['yes', 'no'], pre_prompt='Is this a delivery?', insensitive=True)
+    if delivery == 'yes':
+        delivery = True
+    else:
+        delivery = False
 
     # if delivery, get driver id
     if delivery:
-        drivers = db.deliverydrivers()
+        drivers = np.asarray(db.deliverydrivers())
         driver = menu(
-            drivers,
+            drivers[:,0].tolist(),
             pre_prompt='Please assign a delivery driver:',
             post_prompt="Driver: ",
             indexed=True)
@@ -71,8 +69,7 @@ def main():
 
     try:
         db.connect()
-        item = db.item()
-        print(item)
+        add_order(db)
     except Exception as e:
         raise e
     finally:

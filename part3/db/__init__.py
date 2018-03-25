@@ -22,7 +22,7 @@ class DB:
 
     def members(self):
         with self._conn.cursor() as cur:
-            cur.execute("SELECT * from members;")
+            cur.execute("SELECT * from customers;")
             return cur.fetchall()
 
     def deliverydrivers(self):
