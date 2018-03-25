@@ -6,7 +6,7 @@ from datetime import date
 from pimento import menu
 
 from config import get_config
-from db import DB
+from db import DB, Item
 from db.orders import Order
 
 CONFIG_FNAME = 'config.dev.json'
@@ -52,8 +52,20 @@ def add_customer():
     pass
 
 
-def add_item():
-    pass
+def add_item(db):
+    print("Adding a new item")
+    name = input("Name:")
+    price = input("Price:")
+
+    try:
+        price = float(price)
+    except ValueError:
+        print("Price must be a real number")
+
+    item = Item(db)
+    item.new(name, price)
+
+    print("Added item (%s, %.2f)" % (name, price))
 
 
 def add_employee():
