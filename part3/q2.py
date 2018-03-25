@@ -31,8 +31,6 @@ def main():
             else:
                 # should never happen
                 break
-    except Exception as e:
-        raise e
     finally:
         db.close()
 
