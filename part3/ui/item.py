@@ -10,6 +10,7 @@ def add_item(db):
         price = float(price)
     except ValueError:
         print("Price must be a real number")
+        return
 
     item = Item(db)
     err = item.add(name, price)
