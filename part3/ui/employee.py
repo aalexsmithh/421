@@ -9,6 +9,7 @@ def add_employee(db):
         eid = int(eid)
     except ValueError:
         print("EmployeeId must be an integer")
+        return
 
     firstname = raw_input("First Name: ")
     lastname = raw_input("Last Name: ")
