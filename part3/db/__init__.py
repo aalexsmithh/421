@@ -17,6 +17,21 @@ class DB:
             cur.execute("SELECT * FROM items;")
             return cur.fetchone()
 
+    def orders(self):
+        with self._conn.cursor() as cur:
+            cur.execute("SELECT * from orders;")
+            return cur.fetchall()
+
+    def members(self):
+        with self._conn.cursor() as cur:
+            cur.execute("SELECT * from members;")
+            return cur.fetchall()
+
+    def deliverydrivers(self):
+        with self._conn.cursor() as cur:
+            cur.execute("SELECT * from deliverydrivers;")
+            return cur.fetchall()
+
     @staticmethod
     def _build_dsn(dbconfig):
         return "host={} dbname={} user={} password={}".format(
