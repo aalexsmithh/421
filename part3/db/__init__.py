@@ -1,6 +1,8 @@
+from pimento import menu
 import psycopg2
 
 from items import Item
+from employees import Employee
 
 
 class DB:
