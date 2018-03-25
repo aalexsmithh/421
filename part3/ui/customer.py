@@ -3,7 +3,7 @@ from datetime import date
 from pimento import menu
 
 
-def add_customer():
+def add_customer(db):
     '''
     memberNo int
     firstName text

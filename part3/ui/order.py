@@ -1,2 +1,2 @@
-def add_order():
+def add_order(db):
     pass

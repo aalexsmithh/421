@@ -21,13 +21,13 @@ def main():
             if action == 'quit':
                 break
             elif action == 'add customer':
-                add_customer()
+                add_customer(db)
             elif action == 'add item':
                 add_item(db)
             elif action == 'add employee':
                 add_employee(db)
             elif action == 'add order':
-                add_order()
+                add_order(db)
             elif action == 'monthly revenue':
                 monthly_revenue(db)
             else:
