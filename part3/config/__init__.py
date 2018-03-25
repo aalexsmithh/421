@@ -19,6 +19,9 @@ def verify_db_config(config):
 
     db_config = config['database']
 
+    if 'database' not in db_config or db_config == '':
+        return False, "Database name not in config"
+
     if 'hostname' not in db_config or db_config == '':
         return False, "Database hostname not in config"
 

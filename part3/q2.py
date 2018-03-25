@@ -5,8 +5,9 @@ import time
 from pimento import menu
 
 from config import get_config
+from db import DB
 
-CONFIG_FNAME = 'config.dev.json'
+CONFIG_FNAME = 'config.prod.json'
 
 
 def welcome_msg():
@@ -45,6 +46,17 @@ def add_order():
 def main():
     c = get_config(CONFIG_FNAME)
     print(c)
+
+    db = DB(c['database'])
+
+    try:
+        db.connect()
+        item = db.item()
+        print(item)
+    except Exception as e:
+        raise e
+    finally:
+        db.close()
 
     welcome_msg()
 
