@@ -1,3 +1,11 @@
+from psycopg2 import IntegrityError
+
+INSERT_ITEM = """
+    INSERT INTO items(name, price)
+    VALUES (%s, %s)
+"""
+
+
 class Item:
     def __init__(self, db):
         self._db = db
@@ -9,7 +17,9 @@ class Item:
 
     def add(self, name, price):
         with self._db.cursor() as cur:
-            cur.execute("""INSERT INTO items (name, price)
-                           VALUES (%s, %s)""",
-                        (name, price))
+            try:
+                cur.execute(INSERT_ITEM, (name, price))
+            except IntegrityError:
+                return 'Error: {} is a duplicate item'.format(name)
+
             self._db.commit()

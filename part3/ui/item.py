@@ -12,6 +12,9 @@ def add_item(db):
         print("Price must be a real number")
 
     item = Item(db)
-    item.add(name, price)
+    err = item.add(name, price)
+    if err is not None:
+        print(err)
+        return
 
     print("Added item (%s, %.2f)" % (name, price))
