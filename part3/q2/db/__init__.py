@@ -1,4 +1,12 @@
+from pimento import menu
 import psycopg2
+
+from items import Item
+from employees import Employee
+from transactions import Transaction
+from orders import Orders
+from customers import Customers
+from deliverydrivers import DeliveryDrivers
 
 
 class DB:
@@ -12,10 +20,11 @@ class DB:
     def close(self):
         self._conn.close()
 
-    def item(self):
-        with self._conn.cursor() as cur:
-            cur.execute("SELECT * FROM items;")
-            return cur.fetchone()
+    def commit(self):
+        self._conn.commit()
+
+    def cursor(self):
+        return self._conn.cursor()
 
     @staticmethod
     def _build_dsn(dbconfig):
