@@ -1,7 +1,7 @@
-from datetime import date
-
+from utils import date_menu
 from pimento import menu
-
+from db import Customers
+import numpy as np
 
 def add_customer(db):
     '''
@@ -11,18 +11,23 @@ def add_customer(db):
     address text
     expiry date
     '''
-    print 'Adding a new customer'
-    '''
-    f_name = raw_input('First name:')
-    l_name = raw_input('Last name:')
-    address = raw_input('Address:')
-    '''
-    expiry_y = input('Membership expiry year:')
-    expiry_m = menu(['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug',
-                     'sep', 'oct', 'nov', 'dec'],
-                    post_prompt="Membership expiry month: ")
-    expiry_d = input('Membership expiry day:')
+    customers = Customers(db).get_all()
+    customers = np.asarray(customers)
+    customer_num = max(customers[:,0]) + 1
+    
+    f_name = raw_input('First name: ')
+    l_name = raw_input('Last name: ')
+    address = raw_input('Address: ')
 
-    d = date(int(expiry_y), int(expiry_m), int(expiry_d))
-    print d
-    # print f_name, l_name, address, expiry
+    d = date_menu("Please enter the membership expiry date:", in_the_future=True)
+    
+    err = Customers(db).add(customer_num, f_name, l_name, address, d)
+    
+    if err is not None:
+        print(err)
+        return
+
+    print("Added customer (%s, %s, %s, %s, %s)\n" % (customer_num, f_name, l_name, address, d))
+
+if __name__ == '__main__':
+    add_customer(None)

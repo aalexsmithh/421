@@ -10,6 +10,9 @@ class Employee:
             cur.execute("SELECT * FROM employees;")
             return cur.fetchone()
 
+    def get_all(self):
+        pass
+
     def add(self, eid, firstname, lastname, manager, cashier, driver):
         INSERT_EMPLOYEE = """
             INSERT INTO employees(employeeID, firstName, lastName)

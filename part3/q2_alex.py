@@ -32,7 +32,7 @@ def add_order(db):
             i, _ = np.where(members == member_no)
             name = members[i,1] + ' ' + members[i,2]
             address = members[i,3]
-            print "Found member: %s, living at %s" % (name[0], address[0i])
+            print "Found member: %s, living at %s" % (name[0], address[0])
             correct_member_no = True
 
     # get order total

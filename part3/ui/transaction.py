@@ -23,4 +23,4 @@ def monthly_revenue(db):
     tran = Transaction(db)
     rev = tran.monthly_revenue(year, month)
 
-    print("Revenue for %d-%d is $%.2f" % (year, month, rev))
+    print("Revenue for %d-%d is $%.2f\n" % (year, month, rev))

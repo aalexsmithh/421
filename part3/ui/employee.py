@@ -24,4 +24,4 @@ def add_employee(db):
         print(err)
         return
 
-    print("Added Employee (%d, %s, %s)" % (eid, firstname, lastname))
+    print("Added Employee (%d, %s, %s)\n" % (eid, firstname, lastname))
