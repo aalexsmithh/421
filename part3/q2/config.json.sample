@@ -1,8 +1,0 @@
-{
-    "database":  {
-        "name": "cs421",
-        "hostname": "comp421.cs.mcgill.ca",
-        "username": "cs421g40",
-        "password": ""
-    }
-}
