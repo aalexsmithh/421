@@ -1,0 +1,1 @@
+-- Template for Q2_script.pig
