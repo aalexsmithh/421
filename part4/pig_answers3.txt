@@ -1,0 +1,23 @@
+(a)
+
+nested
+
+moviesByGenreAndYear: {
+    group: (
+        genres::genre: chararray,
+        movies2015_2016::year: int
+    ),
+    movies2015_2016: {
+        (
+            movies2015_2016::movieid: int,
+            movies2015_2016::title: chararray,
+            movies2015_2016::year: int,
+            genres::movieid: int,
+            genres::genre: chararray
+        )
+    }
+}
+
+(b)
+
+2018-04-13 10:58:01,702 [main] INFO  org.apache.pig.Main - Pig script completed in 45 seconds and 506 milliseconds (45506 ms)

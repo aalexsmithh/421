@@ -1,0 +1,1467 @@
+
+grunt> explain final;
+#-----------------------------------------------
+# New Logical Plan:
+#-----------------------------------------------
+final: (Name: LOStore Schema: movieid#721:int,title#722:chararray,numgenres#730:long,numratings#737:long)
+|
+|---final: (Name: LOForEach Schema: movieid#721:int,title#722:chararray,numgenres#730:long,numratings#737:long)
+    |   |
+    |   (Name: LOGenerate[false,false,false,false] Schema: movieid#721:int,title#722:chararray,numgenres#730:long,numratings#737:long)ColumnPrune:InputUids=[730, 721, 737, 722]ColumnPrune:OutputUids=[730, 721, 722, 737]
+    |   |   |
+    |   |   movies2016total::movies2016::movieid:(Name: Project Type: int Uid: 721 Input: 0 Column: (*))
+    |   |   |
+    |   |   movies2016total::movies2016::title:(Name: Project Type: chararray Uid: 722 Input: 1 Column: (*))
+    |   |   |
+    |   |   (Name: Project Type: long Uid: 730 Input: 2 Column: (*))
+    |   |   |
+    |   |   (Name: Project Type: long Uid: 737 Input: 3 Column: (*))
+    |   |
+    |   |---(Name: LOInnerLoad[0] Schema: movies2016total::movies2016::movieid#721:int)
+    |   |
+    |   |---(Name: LOInnerLoad[1] Schema: movies2016total::movies2016::title#722:chararray)
+    |   |
+    |   |---(Name: LOInnerLoad[4] Schema: #730:long)
+    |   |
+    |   |---(Name: LOInnerLoad[6] Schema: #737:long)
+    |
+    |---movies2016totalfinal: (Name: LOJoin(HASH) Schema: movies2016total::movies2016::movieid#721:int,movies2016total::movies2016::title#722:chararray,movies2016total::movies2016::year#723:int,movies2016total::movies2016numgenres::group#725:int,#730:long,movies2016numratings::group#732:int,#737:long)
+        |   |
+        |   movies2016::movieid:(Name: Project Type: int Uid: 721 Input: 0 Column: 0)
+        |   |
+        |   group:(Name: Project Type: int Uid: 732 Input: 1 Column: 0)
+        |
+        |---movies2016total: (Name: LOJoin(HASH) Schema: movies2016::movieid#721:int,movies2016::title#722:chararray,movies2016::year#723:int,movies2016numgenres::group#725:int,#730:long)
+        |   |   |
+        |   |   movieid:(Name: Project Type: int Uid: 721 Input: 0 Column: 0)
+        |   |   |
+        |   |   group:(Name: Project Type: int Uid: 725 Input: 1 Column: 0)
+        |   |
+        |   |---movies2016: (Name: LOSplitOutput Schema: movieid#721:int,title#722:chararray,year#723:int)
+        |   |   |   |
+        |   |   |   (Name: Constant Type: boolean Uid: 720)
+        |   |   |
+        |   |   |---movies2016: (Name: LOSplit Schema: movieid#677:int,title#678:chararray,year#679:int)
+        |   |       |
+        |   |       |---movies2016: (Name: LOFilter Schema: movieid#677:int,title#678:chararray,year#679:int)
+        |   |           |   |
+        |   |           |   (Name: Equal Type: boolean Uid: 719)
+        |   |           |   |
+        |   |           |   |---year:(Name: Project Type: int Uid: 679 Input: 0 Column: 2)
+        |   |           |   |
+        |   |           |   |---(Name: Constant Type: int Uid: 718)
+        |   |           |
+        |   |           |---movies: (Name: LOForEach Schema: movieid#677:int,title#678:chararray,year#679:int)
+        |   |               |   |
+        |   |               |   (Name: LOGenerate[false,false,false] Schema: movieid#677:int,title#678:chararray,year#679:int)ColumnPrune:InputUids=[679, 678, 677]ColumnPrune:OutputUids=[679, 678, 677]
+        |   |               |   |   |
+        |   |               |   |   (Name: Cast Type: int Uid: 677)
+        |   |               |   |   |
+        |   |               |   |   |---movieid:(Name: Project Type: bytearray Uid: 677 Input: 0 Column: (*))
+        |   |               |   |   |
+        |   |               |   |   (Name: Cast Type: chararray Uid: 678)
+        |   |               |   |   |
+        |   |               |   |   |---title:(Name: Project Type: bytearray Uid: 678 Input: 1 Column: (*))
+        |   |               |   |   |
+        |   |               |   |   (Name: Cast Type: int Uid: 679)
+        |   |               |   |   |
+        |   |               |   |   |---year:(Name: Project Type: bytearray Uid: 679 Input: 2 Column: (*))
+        |   |               |   |
+        |   |               |   |---(Name: LOInnerLoad[0] Schema: movieid#677:bytearray)
+        |   |               |   |
+        |   |               |   |---(Name: LOInnerLoad[1] Schema: title#678:bytearray)
+        |   |               |   |
+        |   |               |   |---(Name: LOInnerLoad[2] Schema: year#679:bytearray)
+        |   |               |
+        |   |               |---movies: (Name: LOLoad Schema: movieid#677:bytearray,title#678:bytearray,year#679:bytearray)RequiredFields:null
+        |   |
+        |   |---movies2016numgenres: (Name: LOForEach Schema: group#725:int,#730:long)
+        |       |   |
+        |       |   (Name: LOGenerate[false,false] Schema: group#725:int,#730:long)ColumnPrune:InputUids=[728, 725]ColumnPrune:OutputUids=[730, 725]
+        |       |   |   |
+        |       |   |   group:(Name: Project Type: int Uid: 725 Input: 0 Column: (*))
+        |       |   |   |
+        |       |   |   (Name: UserFunc(org.apache.pig.builtin.COUNT) Type: long Uid: 730)
+        |       |   |   |
+        |       |   |   |---movies2016genres:(Name: Project Type: bag Uid: 728 Input: 1 Column: (*))
+        |       |   |
+        |       |   |---(Name: LOInnerLoad[0] Schema: group#725:int)
+        |       |   |
+        |       |   |---movies2016genres: (Name: LOInnerLoad[1] Schema: movies2016::movieid#725:int,movies2016::title#726:chararray,movies2016::year#727:int,genres::movieid#682:int,genres::genre#683:chararray)
+        |       |
+        |       |---movies2016numgenres: (Name: LOCogroup Schema: group#725:int,movies2016genres#728:bag{#750:tuple(movies2016::movieid#725:int,movies2016::title#726:chararray,movies2016::year#727:int,genres::movieid#682:int,genres::genre#683:chararray)})
+        |           |   |
+        |           |   movies2016::movieid:(Name: Project Type: int Uid: 725 Input: 0 Column: 0)
+        |           |
+        |           |---movies2016genres: (Name: LOJoin(HASH) Schema: movies2016::movieid#725:int,movies2016::title#726:chararray,movies2016::year#727:int,genres::movieid#682:int,genres::genre#683:chararray)
+        |               |   |
+        |               |   movieid:(Name: Project Type: int Uid: 725 Input: 0 Column: 0)
+        |               |   |
+        |               |   movieid:(Name: Project Type: int Uid: 682 Input: 1 Column: 0)
+        |               |
+        |               |---movies2016: (Name: LOSplitOutput Schema: movieid#725:int,title#726:chararray,year#727:int)
+        |               |   |   |
+        |               |   |   (Name: Constant Type: boolean Uid: 724)
+        |               |   |
+        |               |   |---movies2016: (Name: LOSplit Schema: movieid#677:int,title#678:chararray,year#679:int)
+        |               |       |
+        |               |       |---movies2016: (Name: LOFilter Schema: movieid#677:int,title#678:chararray,year#679:int)
+        |               |           |   |
+        |               |           |   (Name: Equal Type: boolean Uid: 719)
+        |               |           |   |
+        |               |           |   |---year:(Name: Project Type: int Uid: 679 Input: 0 Column: 2)
+        |               |           |   |
+        |               |           |   |---(Name: Constant Type: int Uid: 718)
+        |               |           |
+        |               |           |---movies: (Name: LOForEach Schema: movieid#677:int,title#678:chararray,year#679:int)
+        |               |               |   |
+        |               |               |   (Name: LOGenerate[false,false,false] Schema: movieid#677:int,title#678:chararray,year#679:int)ColumnPrune:InputUids=[679, 678, 677]ColumnPrune:OutputUids=[679, 678, 677]
+        |               |               |   |   |
+        |               |               |   |   (Name: Cast Type: int Uid: 677)
+        |               |               |   |   |
+        |               |               |   |   |---movieid:(Name: Project Type: bytearray Uid: 677 Input: 0 Column: (*))
+        |               |               |   |   |
+        |               |               |   |   (Name: Cast Type: chararray Uid: 678)
+        |               |               |   |   |
+        |               |               |   |   |---title:(Name: Project Type: bytearray Uid: 678 Input: 1 Column: (*))
+        |               |               |   |   |
+        |               |               |   |   (Name: Cast Type: int Uid: 679)
+        |               |               |   |   |
+        |               |               |   |   |---year:(Name: Project Type: bytearray Uid: 679 Input: 2 Column: (*))
+        |               |               |   |
+        |               |               |   |---(Name: LOInnerLoad[0] Schema: movieid#677:bytearray)
+        |               |               |   |
+        |               |               |   |---(Name: LOInnerLoad[1] Schema: title#678:bytearray)
+        |               |               |   |
+        |               |               |   |---(Name: LOInnerLoad[2] Schema: year#679:bytearray)
+        |               |               |
+        |               |               |---movies: (Name: LOLoad Schema: movieid#677:bytearray,title#678:bytearray,year#679:bytearray)RequiredFields:null
+        |               |
+        |               |---genres: (Name: LOForEach Schema: movieid#682:int,genre#683:chararray)
+        |                   |   |
+        |                   |   (Name: LOGenerate[false,false] Schema: movieid#682:int,genre#683:chararray)ColumnPrune:InputUids=[683, 682]ColumnPrune:OutputUids=[683, 682]
+        |                   |   |   |
+        |                   |   |   (Name: Cast Type: int Uid: 682)
+        |                   |   |   |
+        |                   |   |   |---movieid:(Name: Project Type: bytearray Uid: 682 Input: 0 Column: (*))
+        |                   |   |   |
+        |                   |   |   (Name: Cast Type: chararray Uid: 683)
+        |                   |   |   |
+        |                   |   |   |---genre:(Name: Project Type: bytearray Uid: 683 Input: 1 Column: (*))
+        |                   |   |
+        |                   |   |---(Name: LOInnerLoad[0] Schema: movieid#682:bytearray)
+        |                   |   |
+        |                   |   |---(Name: LOInnerLoad[1] Schema: genre#683:bytearray)
+        |                   |
+        |                   |---genres: (Name: LOLoad Schema: movieid#682:bytearray,genre#683:bytearray)RequiredFields:null
+        |
+        |---movies2016numratings: (Name: LOForEach Schema: group#732:int,#737:long)
+            |   |
+            |   (Name: LOGenerate[false,false] Schema: group#732:int,#737:long)ColumnPrune:InputUids=[732, 735]ColumnPrune:OutputUids=[732, 737]
+            |   |   |
+            |   |   group:(Name: Project Type: int Uid: 732 Input: 0 Column: (*))
+            |   |   |
+            |   |   (Name: UserFunc(org.apache.pig.builtin.COUNT) Type: long Uid: 737)
+            |   |   |
+            |   |   |---movies2016ratings:(Name: Project Type: bag Uid: 735 Input: 1 Column: (*))
+            |   |
+            |   |---(Name: LOInnerLoad[0] Schema: group#732:int)
+            |   |
+            |   |---movies2016ratings: (Name: LOInnerLoad[1] Schema: movies2016::movieid#732:int,movies2016::title#733:chararray,movies2016::year#734:int,ratings::userid#687:int,ratings::movieid#688:int,ratings::rating#689:double,ratings::TIMESTAMP#690:bytearray)
+            |
+            |---movies2016numratings: (Name: LOCogroup Schema: group#732:int,movies2016ratings#735:bag{#751:tuple(movies2016::movieid#732:int,movies2016::title#733:chararray,movies2016::year#734:int,ratings::userid#687:int,ratings::movieid#688:int,ratings::rating#689:double,ratings::TIMESTAMP#690:bytearray)})
+                |   |
+                |   movies2016::movieid:(Name: Project Type: int Uid: 732 Input: 0 Column: 0)
+                |
+                |---movies2016ratings: (Name: LOJoin(HASH) Schema: movies2016::movieid#732:int,movies2016::title#733:chararray,movies2016::year#734:int,ratings::userid#687:int,ratings::movieid#688:int,ratings::rating#689:double,ratings::TIMESTAMP#690:bytearray)
+                    |   |
+                    |   movieid:(Name: Project Type: int Uid: 732 Input: 0 Column: 0)
+                    |   |
+                    |   movieid:(Name: Project Type: int Uid: 688 Input: 1 Column: 1)
+                    |
+                    |---movies2016: (Name: LOSplitOutput Schema: movieid#732:int,title#733:chararray,year#734:int)
+                    |   |   |
+                    |   |   (Name: Constant Type: boolean Uid: 731)
+                    |   |
+                    |   |---movies2016: (Name: LOSplit Schema: movieid#677:int,title#678:chararray,year#679:int)
+                    |       |
+                    |       |---movies2016: (Name: LOFilter Schema: movieid#677:int,title#678:chararray,year#679:int)
+                    |           |   |
+                    |           |   (Name: Equal Type: boolean Uid: 719)
+                    |           |   |
+                    |           |   |---year:(Name: Project Type: int Uid: 679 Input: 0 Column: 2)
+                    |           |   |
+                    |           |   |---(Name: Constant Type: int Uid: 718)
+                    |           |
+                    |           |---movies: (Name: LOForEach Schema: movieid#677:int,title#678:chararray,year#679:int)
+                    |               |   |
+                    |               |   (Name: LOGenerate[false,false,false] Schema: movieid#677:int,title#678:chararray,year#679:int)ColumnPrune:InputUids=[679, 678, 677]ColumnPrune:OutputUids=[679, 678, 677]
+                    |               |   |   |
+                    |               |   |   (Name: Cast Type: int Uid: 677)
+                    |               |   |   |
+                    |               |   |   |---movieid:(Name: Project Type: bytearray Uid: 677 Input: 0 Column: (*))
+                    |               |   |   |
+                    |               |   |   (Name: Cast Type: chararray Uid: 678)
+                    |               |   |   |
+                    |               |   |   |---title:(Name: Project Type: bytearray Uid: 678 Input: 1 Column: (*))
+                    |               |   |   |
+                    |               |   |   (Name: Cast Type: int Uid: 679)
+                    |               |   |   |
+                    |               |   |   |---year:(Name: Project Type: bytearray Uid: 679 Input: 2 Column: (*))
+                    |               |   |
+                    |               |   |---(Name: LOInnerLoad[0] Schema: movieid#677:bytearray)
+                    |               |   |
+                    |               |   |---(Name: LOInnerLoad[1] Schema: title#678:bytearray)
+                    |               |   |
+                    |               |   |---(Name: LOInnerLoad[2] Schema: year#679:bytearray)
+                    |               |
+                    |               |---movies: (Name: LOLoad Schema: movieid#677:bytearray,title#678:bytearray,year#679:bytearray)RequiredFields:null
+                    |
+                    |---ratings: (Name: LOForEach Schema: userid#687:int,movieid#688:int,rating#689:double,TIMESTAMP#690:bytearray)
+                        |   |
+                        |   (Name: LOGenerate[false,false,false,false] Schema: userid#687:int,movieid#688:int,rating#689:double,TIMESTAMP#690:bytearray)ColumnPrune:InputUids=[687, 690, 688, 689]ColumnPrune:OutputUids=[687, 690, 688, 689]
+                        |   |   |
+                        |   |   (Name: Cast Type: int Uid: 687)
+                        |   |   |
+                        |   |   |---userid:(Name: Project Type: bytearray Uid: 687 Input: 0 Column: (*))
+                        |   |   |
+                        |   |   (Name: Cast Type: int Uid: 688)
+                        |   |   |
+                        |   |   |---movieid:(Name: Project Type: bytearray Uid: 688 Input: 1 Column: (*))
+                        |   |   |
+                        |   |   (Name: Cast Type: double Uid: 689)
+                        |   |   |
+                        |   |   |---rating:(Name: Project Type: bytearray Uid: 689 Input: 2 Column: (*))
+                        |   |   |
+                        |   |   TIMESTAMP:(Name: Project Type: bytearray Uid: 690 Input: 3 Column: (*))
+                        |   |
+                        |   |---(Name: LOInnerLoad[0] Schema: userid#687:bytearray)
+                        |   |
+                        |   |---(Name: LOInnerLoad[1] Schema: movieid#688:bytearray)
+                        |   |
+                        |   |---(Name: LOInnerLoad[2] Schema: rating#689:bytearray)
+                        |   |
+                        |   |---(Name: LOInnerLoad[3] Schema: TIMESTAMP#690:bytearray)
+                        |
+                        |---ratings: (Name: LOLoad Schema: userid#687:bytearray,movieid#688:bytearray,rating#689:bytearray,TIMESTAMP#690:bytearray)RequiredFields:null
+#-----------------------------------------------
+# Physical Plan:
+#-----------------------------------------------
+final: Store(fakefile:org.apache.pig.builtin.PigStorage) - scope-306
+|
+|---final: New For Each(false,false,false,false)[bag] - scope-305
+    |   |
+    |   Project[int][0] - scope-297
+    |   |
+    |   Project[chararray][1] - scope-299
+    |   |
+    |   Project[long][4] - scope-301
+    |   |
+    |   Project[long][6] - scope-303
+    |
+    |---movies2016totalfinal: New For Each(true,true)[tuple] - scope-296
+        |   |
+        |   Project[bag][1] - scope-294
+        |   |
+        |   Project[bag][2] - scope-295
+        |
+        |---movies2016totalfinal: Package(Packager)[tuple]{int} - scope-289
+            |
+            |---movies2016totalfinal: Global Rearrange[tuple] - scope-288
+                |
+                |---movies2016totalfinal: Local Rearrange[tuple]{int}(false) - scope-290
+                |   |   |
+                |   |   Project[int][0] - scope-291
+                |   |
+                |   |---movies2016total: New For Each(true,true)[tuple] - scope-249
+                |       |   |
+                |       |   Project[bag][1] - scope-247
+                |       |   |
+                |       |   Project[bag][2] - scope-248
+                |       |
+                |       |---movies2016total: Package(Packager)[tuple]{int} - scope-242
+                |           |
+                |           |---movies2016total: Global Rearrange[tuple] - scope-241
+                |               |
+                |               |---movies2016total: Local Rearrange[tuple]{int}(false) - scope-243
+                |               |   |   |
+                |               |   |   Project[int][0] - scope-244
+                |               |   |
+                |               |   |---movies2016: Filter[bag] - scope-206
+                |               |       |   |
+                |               |       |   Constant(true) - scope-207
+                |               |       |
+                |               |       |---movies2016: Split - scope-205
+                |               |           |
+                |               |           |---movies2016: Filter[bag] - scope-201
+                |               |               |   |
+                |               |               |   Equal To[boolean] - scope-204
+                |               |               |   |
+                |               |               |   |---Project[int][2] - scope-202
+                |               |               |   |
+                |               |               |   |---Constant(2016) - scope-203
+                |               |               |
+                |               |               |---movies: New For Each(false,false,false)[bag] - scope-200
+                |               |                   |   |
+                |               |                   |   Cast[int] - scope-192
+                |               |                   |   |
+                |               |                   |   |---Project[bytearray][0] - scope-191
+                |               |                   |   |
+                |               |                   |   Cast[chararray] - scope-195
+                |               |                   |   |
+                |               |                   |   |---Project[bytearray][1] - scope-194
+                |               |                   |   |
+                |               |                   |   Cast[int] - scope-198
+                |               |                   |   |
+                |               |                   |   |---Project[bytearray][2] - scope-197
+                |               |                   |
+                |               |                   |---movies: Load(/data/movies.csv:PigStorage(',')) - scope-190
+                |               |
+                |               |---movies2016total: Local Rearrange[tuple]{int}(false) - scope-245
+                |                   |   |
+                |                   |   Project[int][0] - scope-246
+                |                   |
+                |                   |---movies2016numgenres: New For Each(false,false)[bag] - scope-238
+                |                       |   |
+                |                       |   Project[int][0] - scope-233
+                |                       |   |
+                |                       |   POUserFunc(org.apache.pig.builtin.COUNT)[long] - scope-236
+                |                       |   |
+                |                       |   |---Project[bag][1] - scope-235
+                |                       |
+                |                       |---movies2016numgenres: Package(Packager)[tuple]{int} - scope-230
+                |                           |
+                |                           |---movies2016numgenres: Global Rearrange[tuple] - scope-229
+                |                               |
+                |                               |---movies2016numgenres: Local Rearrange[tuple]{int}(false) - scope-231
+                |                                   |   |
+                |                                   |   Project[int][0] - scope-232
+                |                                   |
+                |                                   |---movies2016genres: New For Each(true,true)[tuple] - scope-228
+                |                                       |   |
+                |                                       |   Project[bag][1] - scope-226
+                |                                       |   |
+                |                                       |   Project[bag][2] - scope-227
+                |                                       |
+                |                                       |---movies2016genres: Package(Packager)[tuple]{int} - scope-221
+                |                                           |
+                |                                           |---movies2016genres: Global Rearrange[tuple] - scope-220
+                |                                               |
+                |                                               |---movies2016genres: Local Rearrange[tuple]{int}(false) - scope-222
+                |                                               |   |   |
+                |                                               |   |   Project[int][0] - scope-223
+                |                                               |   |
+                |                                               |   |---movies2016: Filter[bag] - scope-208
+                |                                               |       |   |
+                |                                               |       |   Constant(true) - scope-209
+                |                                               |       |
+                |                                               |       |---movies2016: Split - scope-205
+                |                                               |           |
+                |                                               |           |---movies2016: Filter[bag] - scope-201
+                |                                               |               |   |
+                |                                               |               |   Equal To[boolean] - scope-204
+                |                                               |               |   |
+                |                                               |               |   |---Project[int][2] - scope-202
+                |                                               |               |   |
+                |                                               |               |   |---Constant(2016) - scope-203
+                |                                               |               |
+                |                                               |               |---movies: New For Each(false,false,false)[bag] - scope-200
+                |                                               |                   |   |
+                |                                               |                   |   Cast[int] - scope-192
+                |                                               |                   |   |
+                |                                               |                   |   |---Project[bytearray][0] - scope-191
+                |                                               |                   |   |
+                |                                               |                   |   Cast[chararray] - scope-195
+                |                                               |                   |   |
+                |                                               |                   |   |---Project[bytearray][1] - scope-194
+                |                                               |                   |   |
+                |                                               |                   |   Cast[int] - scope-198
+                |                                               |                   |   |
+                |                                               |                   |   |---Project[bytearray][2] - scope-197
+                |                                               |                   |
+                |                                               |                   |---movies: Load(/data/movies.csv:PigStorage(',')) - scope-190
+                |                                               |
+                |                                               |---movies2016genres: Local Rearrange[tuple]{int}(false) - scope-224
+                |                                                   |   |
+                |                                                   |   Project[int][0] - scope-225
+                |                                                   |
+                |                                                   |---genres: New For Each(false,false)[bag] - scope-217
+                |                                                       |   |
+                |                                                       |   Cast[int] - scope-212
+                |                                                       |   |
+                |                                                       |   |---Project[bytearray][0] - scope-211
+                |                                                       |   |
+                |                                                       |   Cast[chararray] - scope-215
+                |                                                       |   |
+                |                                                       |   |---Project[bytearray][1] - scope-214
+                |                                                       |
+                |                                                       |---genres: Load(/data/moviegenres.csv:PigStorage(',')) - scope-210
+                |
+                |---movies2016totalfinal: Local Rearrange[tuple]{int}(false) - scope-292
+                    |   |
+                    |   Project[int][0] - scope-293
+                    |
+                    |---movies2016numratings: New For Each(false,false)[bag] - scope-285
+                        |   |
+                        |   Project[int][0] - scope-280
+                        |   |
+                        |   POUserFunc(org.apache.pig.builtin.COUNT)[long] - scope-283
+                        |   |
+                        |   |---Project[bag][1] - scope-282
+                        |
+                        |---movies2016numratings: Package(Packager)[tuple]{int} - scope-277
+                            |
+                            |---movies2016numratings: Global Rearrange[tuple] - scope-276
+                                |
+                                |---movies2016numratings: Local Rearrange[tuple]{int}(false) - scope-278
+                                    |   |
+                                    |   Project[int][0] - scope-279
+                                    |
+                                    |---movies2016ratings: New For Each(true,true)[tuple] - scope-275
+                                        |   |
+                                        |   Project[bag][1] - scope-273
+                                        |   |
+                                        |   Project[bag][2] - scope-274
+                                        |
+                                        |---movies2016ratings: Package(Packager)[tuple]{int} - scope-268
+                                            |
+                                            |---movies2016ratings: Global Rearrange[tuple] - scope-267
+                                                |
+                                                |---movies2016ratings: Local Rearrange[tuple]{int}(false) - scope-269
+                                                |   |   |
+                                                |   |   Project[int][0] - scope-270
+                                                |   |
+                                                |   |---movies2016: Filter[bag] - scope-250
+                                                |       |   |
+                                                |       |   Constant(true) - scope-251
+                                                |       |
+                                                |       |---movies2016: Split - scope-205
+                                                |           |
+                                                |           |---movies2016: Filter[bag] - scope-201
+                                                |               |   |
+                                                |               |   Equal To[boolean] - scope-204
+                                                |               |   |
+                                                |               |   |---Project[int][2] - scope-202
+                                                |               |   |
+                                                |               |   |---Constant(2016) - scope-203
+                                                |               |
+                                                |               |---movies: New For Each(false,false,false)[bag] - scope-200
+                                                |                   |   |
+                                                |                   |   Cast[int] - scope-192
+                                                |                   |   |
+                                                |                   |   |---Project[bytearray][0] - scope-191
+                                                |                   |   |
+                                                |                   |   Cast[chararray] - scope-195
+                                                |                   |   |
+                                                |                   |   |---Project[bytearray][1] - scope-194
+                                                |                   |   |
+                                                |                   |   Cast[int] - scope-198
+                                                |                   |   |
+                                                |                   |   |---Project[bytearray][2] - scope-197
+                                                |                   |
+                                                |                   |---movies: Load(/data/movies.csv:PigStorage(',')) - scope-190
+                                                |
+                                                |---movies2016ratings: Local Rearrange[tuple]{int}(false) - scope-271
+                                                    |   |
+                                                    |   Project[int][1] - scope-272
+                                                    |
+                                                    |---ratings: New For Each(false,false,false,false)[bag] - scope-264
+                                                        |   |
+                                                        |   Cast[int] - scope-254
+                                                        |   |
+                                                        |   |---Project[bytearray][0] - scope-253
+                                                        |   |
+                                                        |   Cast[int] - scope-257
+                                                        |   |
+                                                        |   |---Project[bytearray][1] - scope-256
+                                                        |   |
+                                                        |   Cast[double] - scope-260
+                                                        |   |
+                                                        |   |---Project[bytearray][2] - scope-259
+                                                        |   |
+                                                        |   Project[bytearray][3] - scope-262
+                                                        |
+                                                        |---ratings: Load(/data/ratings.csv:PigStorage(',')) - scope-252
+
+#--------------------------------------------------
+# Map Reduce Plan                                  
+#--------------------------------------------------
+MapReduce node scope-307
+Map Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp745933917:org.apache.pig.impl.io.InterStorage) - scope-308
+|
+|---movies2016: Filter[bag] - scope-201
+    |   |
+    |   Equal To[boolean] - scope-204
+    |   |
+    |   |---Project[int][2] - scope-202
+    |   |
+    |   |---Constant(2016) - scope-203
+    |
+    |---movies: New For Each(false,false,false)[bag] - scope-200
+        |   |
+        |   Cast[int] - scope-192
+        |   |
+        |   |---Project[bytearray][0] - scope-191
+        |   |
+        |   Cast[chararray] - scope-195
+        |   |
+        |   |---Project[bytearray][1] - scope-194
+        |   |
+        |   Cast[int] - scope-198
+        |   |
+        |   |---Project[bytearray][2] - scope-197
+        |
+        |---movies: Load(/data/movies.csv:PigStorage(',')) - scope-190--------
+Global sort: false
+----------------
+
+MapReduce node scope-314
+Map Plan
+Union[tuple] - scope-315
+|
+|---movies2016genres: Local Rearrange[tuple]{int}(false) - scope-222
+|   |   |
+|   |   Project[int][0] - scope-223
+|   |
+|   |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp745933917:org.apache.pig.impl.io.InterStorage) - scope-311
+|
+|---movies2016genres: Local Rearrange[tuple]{int}(false) - scope-224
+    |   |
+    |   Project[int][0] - scope-225
+    |
+    |---genres: New For Each(false,false)[bag] - scope-217
+        |   |
+        |   Cast[int] - scope-212
+        |   |
+        |   |---Project[bytearray][0] - scope-211
+        |   |
+        |   Cast[chararray] - scope-215
+        |   |
+        |   |---Project[bytearray][1] - scope-214
+        |
+        |---genres: Load(/data/moviegenres.csv:PigStorage(',')) - scope-210--------
+Reduce Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-1517457763:org.apache.pig.impl.io.InterStorage) - scope-316
+|
+|---movies2016genres: Package(JoinPackager(true,true))[tuple]{int} - scope-221--------
+Global sort: false
+----------------
+
+MapReduce node scope-318
+Map Plan
+movies2016numgenres: Local Rearrange[tuple]{int}(false) - scope-351
+|   |
+|   Project[int][0] - scope-353
+|
+|---movies2016numgenres: New For Each(false,false)[bag] - scope-340
+    |   |
+    |   Project[int][0] - scope-341
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Initial)[tuple] - scope-342
+    |   |
+    |   |---Project[bag][1] - scope-343
+    |
+    |---Pre Combiner Local Rearrange[tuple]{Unknown} - scope-354
+        |
+        |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-1517457763:org.apache.pig.impl.io.InterStorage) - scope-317--------
+Combine Plan
+movies2016numgenres: Local Rearrange[tuple]{int}(false) - scope-355
+|   |
+|   Project[int][0] - scope-357
+|
+|---movies2016numgenres: New For Each(false,false)[bag] - scope-344
+    |   |
+    |   Project[int][0] - scope-345
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Intermediate)[tuple] - scope-346
+    |   |
+    |   |---Project[bag][1] - scope-347
+    |
+    |---movies2016numgenres: Package(CombinerPackager)[tuple]{int} - scope-350--------
+Reduce Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-1987182680:org.apache.pig.impl.io.InterStorage) - scope-319
+|
+|---movies2016numgenres: New For Each(false,false)[bag] - scope-238
+    |   |
+    |   Project[int][0] - scope-233
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Final)[long] - scope-236
+    |   |
+    |   |---Project[bag][1] - scope-348
+    |
+    |---movies2016numgenres: Package(CombinerPackager)[tuple]{int} - scope-230--------
+Global sort: false
+----------------
+
+MapReduce node scope-322
+Map Plan
+Union[tuple] - scope-323
+|
+|---movies2016total: Local Rearrange[tuple]{int}(false) - scope-243
+|   |   |
+|   |   Project[int][0] - scope-244
+|   |
+|   |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp745933917:org.apache.pig.impl.io.InterStorage) - scope-309
+|
+|---movies2016total: Local Rearrange[tuple]{int}(false) - scope-245
+    |   |
+    |   Project[int][0] - scope-246
+    |
+    |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-1987182680:org.apache.pig.impl.io.InterStorage) - scope-320--------
+Reduce Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp1584788229:org.apache.pig.impl.io.InterStorage) - scope-324
+|
+|---movies2016total: Package(JoinPackager(true,true))[tuple]{int} - scope-242--------
+Global sort: false
+----------------
+
+MapReduce node scope-338
+Map Plan
+Union[tuple] - scope-339
+|
+|---movies2016totalfinal: Local Rearrange[tuple]{int}(false) - scope-290
+|   |   |
+|   |   Project[int][0] - scope-291
+|   |
+|   |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp1584788229:org.apache.pig.impl.io.InterStorage) - scope-325
+|
+|---movies2016totalfinal: Local Rearrange[tuple]{int}(false) - scope-292
+    |   |
+    |   Project[int][0] - scope-293
+    |
+    |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp2139597902:org.apache.pig.impl.io.InterStorage) - scope-336--------
+Reduce Plan
+final: Store(fakefile:org.apache.pig.builtin.PigStorage) - scope-306
+|
+|---final: New For Each(false,false,false,false)[bag] - scope-305
+    |   |
+    |   Project[int][0] - scope-297
+    |   |
+    |   Project[chararray][1] - scope-299
+    |   |
+    |   Project[long][4] - scope-301
+    |   |
+    |   Project[long][6] - scope-303
+    |
+    |---movies2016totalfinal: Package(JoinPackager(true,true))[tuple]{int} - scope-289--------
+Global sort: false
+----------------
+
+MapReduce node scope-330
+Map Plan
+Union[tuple] - scope-331
+|
+|---movies2016ratings: Local Rearrange[tuple]{int}(false) - scope-269
+|   |   |
+|   |   Project[int][0] - scope-270
+|   |
+|   |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp745933917:org.apache.pig.impl.io.InterStorage) - scope-327
+|
+|---movies2016ratings: Local Rearrange[tuple]{int}(false) - scope-271
+    |   |
+    |   Project[int][1] - scope-272
+    |
+    |---ratings: New For Each(false,false,false,false)[bag] - scope-264
+        |   |
+        |   Cast[int] - scope-254
+        |   |
+        |   |---Project[bytearray][0] - scope-253
+        |   |
+        |   Cast[int] - scope-257
+        |   |
+        |   |---Project[bytearray][1] - scope-256
+        |   |
+        |   Cast[double] - scope-260
+        |   |
+        |   |---Project[bytearray][2] - scope-259
+        |   |
+        |   Project[bytearray][3] - scope-262
+        |
+        |---ratings: Load(/data/ratings.csv:PigStorage(',')) - scope-252--------
+Reduce Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp963350879:org.apache.pig.impl.io.InterStorage) - scope-332
+|
+|---movies2016ratings: Package(JoinPackager(true,true))[tuple]{int} - scope-268--------
+Global sort: false
+----------------
+
+MapReduce node scope-334
+Map Plan
+movies2016numratings: Local Rearrange[tuple]{int}(false) - scope-369
+|   |
+|   Project[int][0] - scope-371
+|
+|---movies2016numratings: New For Each(false,false)[bag] - scope-358
+    |   |
+    |   Project[int][0] - scope-359
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Initial)[tuple] - scope-360
+    |   |
+    |   |---Project[bag][1] - scope-361
+    |
+    |---Pre Combiner Local Rearrange[tuple]{Unknown} - scope-372
+        |
+        |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp963350879:org.apache.pig.impl.io.InterStorage) - scope-333--------
+Combine Plan
+movies2016numratings: Local Rearrange[tuple]{int}(false) - scope-373
+|   |
+|   Project[int][0] - scope-375
+|
+|---movies2016numratings: New For Each(false,false)[bag] - scope-362
+    |   |
+    |   Project[int][0] - scope-363
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Intermediate)[tuple] - scope-364
+    |   |
+    |   |---Project[bag][1] - scope-365
+    |
+    |---movies2016numratings: Package(CombinerPackager)[tuple]{int} - scope-368--------
+Reduce Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp2139597902:org.apache.pig.impl.io.InterStorage) - scope-335
+|
+|---movies2016numratings: New For Each(false,false)[bag] - scope-285
+    |   |
+    |   Project[int][0] - scope-280
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Final)[long] - scope-283
+    |   |
+    |   |---Project[bag][1] - scope-366
+    |
+    |---movies2016numratings: Package(CombinerPackager)[tuple]{int} - scope-277--------
+Global sort: false
+----------------
+
+grunt> 
+grunt> explain final;
+#-----------------------------------------------
+# New Logical Plan:
+#-----------------------------------------------
+final: (Name: LOStore Schema: movieid#796:int,title#797:chararray,numgenres#805:long,numratings#812:long)
+|
+|---final: (Name: LOForEach Schema: movieid#796:int,title#797:chararray,numgenres#805:long,numratings#812:long)
+    |   |
+    |   (Name: LOGenerate[false,false,false,false] Schema: movieid#796:int,title#797:chararray,numgenres#805:long,numratings#812:long)ColumnPrune:InputUids=[805, 812, 797, 796]ColumnPrune:OutputUids=[805, 812, 797, 796]
+    |   |   |
+    |   |   movies2016total::movies2016::movieid:(Name: Project Type: int Uid: 796 Input: 0 Column: (*))
+    |   |   |
+    |   |   movies2016total::movies2016::title:(Name: Project Type: chararray Uid: 797 Input: 1 Column: (*))
+    |   |   |
+    |   |   (Name: Project Type: long Uid: 805 Input: 2 Column: (*))
+    |   |   |
+    |   |   (Name: Project Type: long Uid: 812 Input: 3 Column: (*))
+    |   |
+    |   |---(Name: LOInnerLoad[0] Schema: movies2016total::movies2016::movieid#796:int)
+    |   |
+    |   |---(Name: LOInnerLoad[1] Schema: movies2016total::movies2016::title#797:chararray)
+    |   |
+    |   |---(Name: LOInnerLoad[4] Schema: #805:long)
+    |   |
+    |   |---(Name: LOInnerLoad[6] Schema: #812:long)
+    |
+    |---movies2016totalfinal: (Name: LOJoin(HASH) Schema: movies2016total::movies2016::movieid#796:int,movies2016total::movies2016::title#797:chararray,movies2016total::movies2016::year#798:int,movies2016total::movies2016numgenres::group#800:int,#805:long,movies2016numratings::group#807:int,#812:long)
+        |   |
+        |   movies2016::movieid:(Name: Project Type: int Uid: 796 Input: 0 Column: 0)
+        |   |
+        |   group:(Name: Project Type: int Uid: 807 Input: 1 Column: 0)
+        |
+        |---movies2016total: (Name: LOJoin(HASH) Schema: movies2016::movieid#796:int,movies2016::title#797:chararray,movies2016::year#798:int,movies2016numgenres::group#800:int,#805:long)
+        |   |   |
+        |   |   movieid:(Name: Project Type: int Uid: 796 Input: 0 Column: 0)
+        |   |   |
+        |   |   group:(Name: Project Type: int Uid: 800 Input: 1 Column: 0)
+        |   |
+        |   |---movies2016: (Name: LOSplitOutput Schema: movieid#796:int,title#797:chararray,year#798:int)
+        |   |   |   |
+        |   |   |   (Name: Constant Type: boolean Uid: 795)
+        |   |   |
+        |   |   |---movies2016: (Name: LOSplit Schema: movieid#752:int,title#753:chararray,year#754:int)
+        |   |       |
+        |   |       |---movies2016: (Name: LOFilter Schema: movieid#752:int,title#753:chararray,year#754:int)
+        |   |           |   |
+        |   |           |   (Name: Equal Type: boolean Uid: 794)
+        |   |           |   |
+        |   |           |   |---year:(Name: Project Type: int Uid: 754 Input: 0 Column: 2)
+        |   |           |   |
+        |   |           |   |---(Name: Constant Type: int Uid: 793)
+        |   |           |
+        |   |           |---movies: (Name: LOForEach Schema: movieid#752:int,title#753:chararray,year#754:int)
+        |   |               |   |
+        |   |               |   (Name: LOGenerate[false,false,false] Schema: movieid#752:int,title#753:chararray,year#754:int)ColumnPrune:InputUids=[754, 752, 753]ColumnPrune:OutputUids=[754, 752, 753]
+        |   |               |   |   |
+        |   |               |   |   (Name: Cast Type: int Uid: 752)
+        |   |               |   |   |
+        |   |               |   |   |---movieid:(Name: Project Type: bytearray Uid: 752 Input: 0 Column: (*))
+        |   |               |   |   |
+        |   |               |   |   (Name: Cast Type: chararray Uid: 753)
+        |   |               |   |   |
+        |   |               |   |   |---title:(Name: Project Type: bytearray Uid: 753 Input: 1 Column: (*))
+        |   |               |   |   |
+        |   |               |   |   (Name: Cast Type: int Uid: 754)
+        |   |               |   |   |
+        |   |               |   |   |---year:(Name: Project Type: bytearray Uid: 754 Input: 2 Column: (*))
+        |   |               |   |
+        |   |               |   |---(Name: LOInnerLoad[0] Schema: movieid#752:bytearray)
+        |   |               |   |
+        |   |               |   |---(Name: LOInnerLoad[1] Schema: title#753:bytearray)
+        |   |               |   |
+        |   |               |   |---(Name: LOInnerLoad[2] Schema: year#754:bytearray)
+        |   |               |
+        |   |               |---movies: (Name: LOLoad Schema: movieid#752:bytearray,title#753:bytearray,year#754:bytearray)RequiredFields:null
+        |   |
+        |   |---movies2016numgenres: (Name: LOForEach Schema: group#800:int,#805:long)
+        |       |   |
+        |       |   (Name: LOGenerate[false,false] Schema: group#800:int,#805:long)ColumnPrune:InputUids=[800, 803]ColumnPrune:OutputUids=[805, 800]
+        |       |   |   |
+        |       |   |   group:(Name: Project Type: int Uid: 800 Input: 0 Column: (*))
+        |       |   |   |
+        |       |   |   (Name: UserFunc(org.apache.pig.builtin.COUNT) Type: long Uid: 805)
+        |       |   |   |
+        |       |   |   |---movies2016genres:(Name: Project Type: bag Uid: 803 Input: 1 Column: (*))
+        |       |   |
+        |       |   |---(Name: LOInnerLoad[0] Schema: group#800:int)
+        |       |   |
+        |       |   |---movies2016genres: (Name: LOInnerLoad[1] Schema: movies2016::movieid#800:int,movies2016::title#801:chararray,movies2016::year#802:int,genres::movieid#757:int,genres::genre#758:chararray)
+        |       |
+        |       |---movies2016numgenres: (Name: LOCogroup Schema: group#800:int,movies2016genres#803:bag{#825:tuple(movies2016::movieid#800:int,movies2016::title#801:chararray,movies2016::year#802:int,genres::movieid#757:int,genres::genre#758:chararray)})
+        |           |   |
+        |           |   movies2016::movieid:(Name: Project Type: int Uid: 800 Input: 0 Column: 0)
+        |           |
+        |           |---movies2016genres: (Name: LOJoin(HASH) Schema: movies2016::movieid#800:int,movies2016::title#801:chararray,movies2016::year#802:int,genres::movieid#757:int,genres::genre#758:chararray)
+        |               |   |
+        |               |   movieid:(Name: Project Type: int Uid: 800 Input: 0 Column: 0)
+        |               |   |
+        |               |   movieid:(Name: Project Type: int Uid: 757 Input: 1 Column: 0)
+        |               |
+        |               |---movies2016: (Name: LOSplitOutput Schema: movieid#800:int,title#801:chararray,year#802:int)
+        |               |   |   |
+        |               |   |   (Name: Constant Type: boolean Uid: 799)
+        |               |   |
+        |               |   |---movies2016: (Name: LOSplit Schema: movieid#752:int,title#753:chararray,year#754:int)
+        |               |       |
+        |               |       |---movies2016: (Name: LOFilter Schema: movieid#752:int,title#753:chararray,year#754:int)
+        |               |           |   |
+        |               |           |   (Name: Equal Type: boolean Uid: 794)
+        |               |           |   |
+        |               |           |   |---year:(Name: Project Type: int Uid: 754 Input: 0 Column: 2)
+        |               |           |   |
+        |               |           |   |---(Name: Constant Type: int Uid: 793)
+        |               |           |
+        |               |           |---movies: (Name: LOForEach Schema: movieid#752:int,title#753:chararray,year#754:int)
+        |               |               |   |
+        |               |               |   (Name: LOGenerate[false,false,false] Schema: movieid#752:int,title#753:chararray,year#754:int)ColumnPrune:InputUids=[754, 752, 753]ColumnPrune:OutputUids=[754, 752, 753]
+        |               |               |   |   |
+        |               |               |   |   (Name: Cast Type: int Uid: 752)
+        |               |               |   |   |
+        |               |               |   |   |---movieid:(Name: Project Type: bytearray Uid: 752 Input: 0 Column: (*))
+        |               |               |   |   |
+        |               |               |   |   (Name: Cast Type: chararray Uid: 753)
+        |               |               |   |   |
+        |               |               |   |   |---title:(Name: Project Type: bytearray Uid: 753 Input: 1 Column: (*))
+        |               |               |   |   |
+        |               |               |   |   (Name: Cast Type: int Uid: 754)
+        |               |               |   |   |
+        |               |               |   |   |---year:(Name: Project Type: bytearray Uid: 754 Input: 2 Column: (*))
+        |               |               |   |
+        |               |               |   |---(Name: LOInnerLoad[0] Schema: movieid#752:bytearray)
+        |               |               |   |
+        |               |               |   |---(Name: LOInnerLoad[1] Schema: title#753:bytearray)
+        |               |               |   |
+        |               |               |   |---(Name: LOInnerLoad[2] Schema: year#754:bytearray)
+        |               |               |
+        |               |               |---movies: (Name: LOLoad Schema: movieid#752:bytearray,title#753:bytearray,year#754:bytearray)RequiredFields:null
+        |               |
+        |               |---genres: (Name: LOForEach Schema: movieid#757:int,genre#758:chararray)
+        |                   |   |
+        |                   |   (Name: LOGenerate[false,false] Schema: movieid#757:int,genre#758:chararray)ColumnPrune:InputUids=[758, 757]ColumnPrune:OutputUids=[758, 757]
+        |                   |   |   |
+        |                   |   |   (Name: Cast Type: int Uid: 757)
+        |                   |   |   |
+        |                   |   |   |---movieid:(Name: Project Type: bytearray Uid: 757 Input: 0 Column: (*))
+        |                   |   |   |
+        |                   |   |   (Name: Cast Type: chararray Uid: 758)
+        |                   |   |   |
+        |                   |   |   |---genre:(Name: Project Type: bytearray Uid: 758 Input: 1 Column: (*))
+        |                   |   |
+        |                   |   |---(Name: LOInnerLoad[0] Schema: movieid#757:bytearray)
+        |                   |   |
+        |                   |   |---(Name: LOInnerLoad[1] Schema: genre#758:bytearray)
+        |                   |
+        |                   |---genres: (Name: LOLoad Schema: movieid#757:bytearray,genre#758:bytearray)RequiredFields:null
+        |
+        |---movies2016numratings: (Name: LOForEach Schema: group#807:int,#812:long)
+            |   |
+            |   (Name: LOGenerate[false,false] Schema: group#807:int,#812:long)ColumnPrune:InputUids=[807, 810]ColumnPrune:OutputUids=[807, 812]
+            |   |   |
+            |   |   group:(Name: Project Type: int Uid: 807 Input: 0 Column: (*))
+            |   |   |
+            |   |   (Name: UserFunc(org.apache.pig.builtin.COUNT) Type: long Uid: 812)
+            |   |   |
+            |   |   |---movies2016ratings:(Name: Project Type: bag Uid: 810 Input: 1 Column: (*))
+            |   |
+            |   |---(Name: LOInnerLoad[0] Schema: group#807:int)
+            |   |
+            |   |---movies2016ratings: (Name: LOInnerLoad[1] Schema: movies2016::movieid#807:int,movies2016::title#808:chararray,movies2016::year#809:int,ratings::userid#762:int,ratings::movieid#763:int,ratings::rating#764:double,ratings::TIMESTAMP#765:bytearray)
+            |
+            |---movies2016numratings: (Name: LOCogroup Schema: group#807:int,movies2016ratings#810:bag{#826:tuple(movies2016::movieid#807:int,movies2016::title#808:chararray,movies2016::year#809:int,ratings::userid#762:int,ratings::movieid#763:int,ratings::rating#764:double,ratings::TIMESTAMP#765:bytearray)})
+                |   |
+                |   movies2016::movieid:(Name: Project Type: int Uid: 807 Input: 0 Column: 0)
+                |
+                |---movies2016ratings: (Name: LOJoin(HASH) Schema: movies2016::movieid#807:int,movies2016::title#808:chararray,movies2016::year#809:int,ratings::userid#762:int,ratings::movieid#763:int,ratings::rating#764:double,ratings::TIMESTAMP#765:bytearray)
+                    |   |
+                    |   movieid:(Name: Project Type: int Uid: 807 Input: 0 Column: 0)
+                    |   |
+                    |   movieid:(Name: Project Type: int Uid: 763 Input: 1 Column: 1)
+                    |
+                    |---movies2016: (Name: LOSplitOutput Schema: movieid#807:int,title#808:chararray,year#809:int)
+                    |   |   |
+                    |   |   (Name: Constant Type: boolean Uid: 806)
+                    |   |
+                    |   |---movies2016: (Name: LOSplit Schema: movieid#752:int,title#753:chararray,year#754:int)
+                    |       |
+                    |       |---movies2016: (Name: LOFilter Schema: movieid#752:int,title#753:chararray,year#754:int)
+                    |           |   |
+                    |           |   (Name: Equal Type: boolean Uid: 794)
+                    |           |   |
+                    |           |   |---year:(Name: Project Type: int Uid: 754 Input: 0 Column: 2)
+                    |           |   |
+                    |           |   |---(Name: Constant Type: int Uid: 793)
+                    |           |
+                    |           |---movies: (Name: LOForEach Schema: movieid#752:int,title#753:chararray,year#754:int)
+                    |               |   |
+                    |               |   (Name: LOGenerate[false,false,false] Schema: movieid#752:int,title#753:chararray,year#754:int)ColumnPrune:InputUids=[754, 752, 753]ColumnPrune:OutputUids=[754, 752, 753]
+                    |               |   |   |
+                    |               |   |   (Name: Cast Type: int Uid: 752)
+                    |               |   |   |
+                    |               |   |   |---movieid:(Name: Project Type: bytearray Uid: 752 Input: 0 Column: (*))
+                    |               |   |   |
+                    |               |   |   (Name: Cast Type: chararray Uid: 753)
+                    |               |   |   |
+                    |               |   |   |---title:(Name: Project Type: bytearray Uid: 753 Input: 1 Column: (*))
+                    |               |   |   |
+                    |               |   |   (Name: Cast Type: int Uid: 754)
+                    |               |   |   |
+                    |               |   |   |---year:(Name: Project Type: bytearray Uid: 754 Input: 2 Column: (*))
+                    |               |   |
+                    |               |   |---(Name: LOInnerLoad[0] Schema: movieid#752:bytearray)
+                    |               |   |
+                    |               |   |---(Name: LOInnerLoad[1] Schema: title#753:bytearray)
+                    |               |   |
+                    |               |   |---(Name: LOInnerLoad[2] Schema: year#754:bytearray)
+                    |               |
+                    |               |---movies: (Name: LOLoad Schema: movieid#752:bytearray,title#753:bytearray,year#754:bytearray)RequiredFields:null
+                    |
+                    |---ratings: (Name: LOForEach Schema: userid#762:int,movieid#763:int,rating#764:double,TIMESTAMP#765:bytearray)
+                        |   |
+                        |   (Name: LOGenerate[false,false,false,false] Schema: userid#762:int,movieid#763:int,rating#764:double,TIMESTAMP#765:bytearray)ColumnPrune:InputUids=[762, 763, 764, 765]ColumnPrune:OutputUids=[762, 763, 764, 765]
+                        |   |   |
+                        |   |   (Name: Cast Type: int Uid: 762)
+                        |   |   |
+                        |   |   |---userid:(Name: Project Type: bytearray Uid: 762 Input: 0 Column: (*))
+                        |   |   |
+                        |   |   (Name: Cast Type: int Uid: 763)
+                        |   |   |
+                        |   |   |---movieid:(Name: Project Type: bytearray Uid: 763 Input: 1 Column: (*))
+                        |   |   |
+                        |   |   (Name: Cast Type: double Uid: 764)
+                        |   |   |
+                        |   |   |---rating:(Name: Project Type: bytearray Uid: 764 Input: 2 Column: (*))
+                        |   |   |
+                        |   |   TIMESTAMP:(Name: Project Type: bytearray Uid: 765 Input: 3 Column: (*))
+                        |   |
+                        |   |---(Name: LOInnerLoad[0] Schema: userid#762:bytearray)
+                        |   |
+                        |   |---(Name: LOInnerLoad[1] Schema: movieid#763:bytearray)
+                        |   |
+                        |   |---(Name: LOInnerLoad[2] Schema: rating#764:bytearray)
+                        |   |
+                        |   |---(Name: LOInnerLoad[3] Schema: TIMESTAMP#765:bytearray)
+                        |
+                        |---ratings: (Name: LOLoad Schema: userid#762:bytearray,movieid#763:bytearray,rating#764:bytearray,TIMESTAMP#765:bytearray)RequiredFields:null
+#-----------------------------------------------
+# Physical Plan:
+#-----------------------------------------------
+final: Store(fakefile:org.apache.pig.builtin.PigStorage) - scope-496
+|
+|---final: New For Each(false,false,false,false)[bag] - scope-495
+    |   |
+    |   Project[int][0] - scope-487
+    |   |
+    |   Project[chararray][1] - scope-489
+    |   |
+    |   Project[long][4] - scope-491
+    |   |
+    |   Project[long][6] - scope-493
+    |
+    |---movies2016totalfinal: New For Each(true,true)[tuple] - scope-486
+        |   |
+        |   Project[bag][1] - scope-484
+        |   |
+        |   Project[bag][2] - scope-485
+        |
+        |---movies2016totalfinal: Package(Packager)[tuple]{int} - scope-479
+            |
+            |---movies2016totalfinal: Global Rearrange[tuple] - scope-478
+                |
+                |---movies2016totalfinal: Local Rearrange[tuple]{int}(false) - scope-480
+                |   |   |
+                |   |   Project[int][0] - scope-481
+                |   |
+                |   |---movies2016total: New For Each(true,true)[tuple] - scope-439
+                |       |   |
+                |       |   Project[bag][1] - scope-437
+                |       |   |
+                |       |   Project[bag][2] - scope-438
+                |       |
+                |       |---movies2016total: Package(Packager)[tuple]{int} - scope-432
+                |           |
+                |           |---movies2016total: Global Rearrange[tuple] - scope-431
+                |               |
+                |               |---movies2016total: Local Rearrange[tuple]{int}(false) - scope-433
+                |               |   |   |
+                |               |   |   Project[int][0] - scope-434
+                |               |   |
+                |               |   |---movies2016: Filter[bag] - scope-396
+                |               |       |   |
+                |               |       |   Constant(true) - scope-397
+                |               |       |
+                |               |       |---movies2016: Split - scope-395
+                |               |           |
+                |               |           |---movies2016: Filter[bag] - scope-391
+                |               |               |   |
+                |               |               |   Equal To[boolean] - scope-394
+                |               |               |   |
+                |               |               |   |---Project[int][2] - scope-392
+                |               |               |   |
+                |               |               |   |---Constant(2016) - scope-393
+                |               |               |
+                |               |               |---movies: New For Each(false,false,false)[bag] - scope-390
+                |               |                   |   |
+                |               |                   |   Cast[int] - scope-382
+                |               |                   |   |
+                |               |                   |   |---Project[bytearray][0] - scope-381
+                |               |                   |   |
+                |               |                   |   Cast[chararray] - scope-385
+                |               |                   |   |
+                |               |                   |   |---Project[bytearray][1] - scope-384
+                |               |                   |   |
+                |               |                   |   Cast[int] - scope-388
+                |               |                   |   |
+                |               |                   |   |---Project[bytearray][2] - scope-387
+                |               |                   |
+                |               |                   |---movies: Load(/data/movies.csv:PigStorage(',')) - scope-380
+                |               |
+                |               |---movies2016total: Local Rearrange[tuple]{int}(false) - scope-435
+                |                   |   |
+                |                   |   Project[int][0] - scope-436
+                |                   |
+                |                   |---movies2016numgenres: New For Each(false,false)[bag] - scope-428
+                |                       |   |
+                |                       |   Project[int][0] - scope-423
+                |                       |   |
+                |                       |   POUserFunc(org.apache.pig.builtin.COUNT)[long] - scope-426
+                |                       |   |
+                |                       |   |---Project[bag][1] - scope-425
+                |                       |
+                |                       |---movies2016numgenres: Package(Packager)[tuple]{int} - scope-420
+                |                           |
+                |                           |---movies2016numgenres: Global Rearrange[tuple] - scope-419
+                |                               |
+                |                               |---movies2016numgenres: Local Rearrange[tuple]{int}(false) - scope-421
+                |                                   |   |
+                |                                   |   Project[int][0] - scope-422
+                |                                   |
+                |                                   |---movies2016genres: New For Each(true,true)[tuple] - scope-418
+                |                                       |   |
+                |                                       |   Project[bag][1] - scope-416
+                |                                       |   |
+                |                                       |   Project[bag][2] - scope-417
+                |                                       |
+                |                                       |---movies2016genres: Package(Packager)[tuple]{int} - scope-411
+                |                                           |
+                |                                           |---movies2016genres: Global Rearrange[tuple] - scope-410
+                |                                               |
+                |                                               |---movies2016genres: Local Rearrange[tuple]{int}(false) - scope-412
+                |                                               |   |   |
+                |                                               |   |   Project[int][0] - scope-413
+                |                                               |   |
+                |                                               |   |---movies2016: Filter[bag] - scope-398
+                |                                               |       |   |
+                |                                               |       |   Constant(true) - scope-399
+                |                                               |       |
+                |                                               |       |---movies2016: Split - scope-395
+                |                                               |           |
+                |                                               |           |---movies2016: Filter[bag] - scope-391
+                |                                               |               |   |
+                |                                               |               |   Equal To[boolean] - scope-394
+                |                                               |               |   |
+                |                                               |               |   |---Project[int][2] - scope-392
+                |                                               |               |   |
+                |                                               |               |   |---Constant(2016) - scope-393
+                |                                               |               |
+                |                                               |               |---movies: New For Each(false,false,false)[bag] - scope-390
+                |                                               |                   |   |
+                |                                               |                   |   Cast[int] - scope-382
+                |                                               |                   |   |
+                |                                               |                   |   |---Project[bytearray][0] - scope-381
+                |                                               |                   |   |
+                |                                               |                   |   Cast[chararray] - scope-385
+                |                                               |                   |   |
+                |                                               |                   |   |---Project[bytearray][1] - scope-384
+                |                                               |                   |   |
+                |                                               |                   |   Cast[int] - scope-388
+                |                                               |                   |   |
+                |                                               |                   |   |---Project[bytearray][2] - scope-387
+                |                                               |                   |
+                |                                               |                   |---movies: Load(/data/movies.csv:PigStorage(',')) - scope-380
+                |                                               |
+                |                                               |---movies2016genres: Local Rearrange[tuple]{int}(false) - scope-414
+                |                                                   |   |
+                |                                                   |   Project[int][0] - scope-415
+                |                                                   |
+                |                                                   |---genres: New For Each(false,false)[bag] - scope-407
+                |                                                       |   |
+                |                                                       |   Cast[int] - scope-402
+                |                                                       |   |
+                |                                                       |   |---Project[bytearray][0] - scope-401
+                |                                                       |   |
+                |                                                       |   Cast[chararray] - scope-405
+                |                                                       |   |
+                |                                                       |   |---Project[bytearray][1] - scope-404
+                |                                                       |
+                |                                                       |---genres: Load(/data/moviegenres.csv:PigStorage(',')) - scope-400
+                |
+                |---movies2016totalfinal: Local Rearrange[tuple]{int}(false) - scope-482
+                    |   |
+                    |   Project[int][0] - scope-483
+                    |
+                    |---movies2016numratings: New For Each(false,false)[bag] - scope-475
+                        |   |
+                        |   Project[int][0] - scope-470
+                        |   |
+                        |   POUserFunc(org.apache.pig.builtin.COUNT)[long] - scope-473
+                        |   |
+                        |   |---Project[bag][1] - scope-472
+                        |
+                        |---movies2016numratings: Package(Packager)[tuple]{int} - scope-467
+                            |
+                            |---movies2016numratings: Global Rearrange[tuple] - scope-466
+                                |
+                                |---movies2016numratings: Local Rearrange[tuple]{int}(false) - scope-468
+                                    |   |
+                                    |   Project[int][0] - scope-469
+                                    |
+                                    |---movies2016ratings: New For Each(true,true)[tuple] - scope-465
+                                        |   |
+                                        |   Project[bag][1] - scope-463
+                                        |   |
+                                        |   Project[bag][2] - scope-464
+                                        |
+                                        |---movies2016ratings: Package(Packager)[tuple]{int} - scope-458
+                                            |
+                                            |---movies2016ratings: Global Rearrange[tuple] - scope-457
+                                                |
+                                                |---movies2016ratings: Local Rearrange[tuple]{int}(false) - scope-459
+                                                |   |   |
+                                                |   |   Project[int][0] - scope-460
+                                                |   |
+                                                |   |---movies2016: Filter[bag] - scope-440
+                                                |       |   |
+                                                |       |   Constant(true) - scope-441
+                                                |       |
+                                                |       |---movies2016: Split - scope-395
+                                                |           |
+                                                |           |---movies2016: Filter[bag] - scope-391
+                                                |               |   |
+                                                |               |   Equal To[boolean] - scope-394
+                                                |               |   |
+                                                |               |   |---Project[int][2] - scope-392
+                                                |               |   |
+                                                |               |   |---Constant(2016) - scope-393
+                                                |               |
+                                                |               |---movies: New For Each(false,false,false)[bag] - scope-390
+                                                |                   |   |
+                                                |                   |   Cast[int] - scope-382
+                                                |                   |   |
+                                                |                   |   |---Project[bytearray][0] - scope-381
+                                                |                   |   |
+                                                |                   |   Cast[chararray] - scope-385
+                                                |                   |   |
+                                                |                   |   |---Project[bytearray][1] - scope-384
+                                                |                   |   |
+                                                |                   |   Cast[int] - scope-388
+                                                |                   |   |
+                                                |                   |   |---Project[bytearray][2] - scope-387
+                                                |                   |
+                                                |                   |---movies: Load(/data/movies.csv:PigStorage(',')) - scope-380
+                                                |
+                                                |---movies2016ratings: Local Rearrange[tuple]{int}(false) - scope-461
+                                                    |   |
+                                                    |   Project[int][1] - scope-462
+                                                    |
+                                                    |---ratings: New For Each(false,false,false,false)[bag] - scope-454
+                                                        |   |
+                                                        |   Cast[int] - scope-444
+                                                        |   |
+                                                        |   |---Project[bytearray][0] - scope-443
+                                                        |   |
+                                                        |   Cast[int] - scope-447
+                                                        |   |
+                                                        |   |---Project[bytearray][1] - scope-446
+                                                        |   |
+                                                        |   Cast[double] - scope-450
+                                                        |   |
+                                                        |   |---Project[bytearray][2] - scope-449
+                                                        |   |
+                                                        |   Project[bytearray][3] - scope-452
+                                                        |
+                                                        |---ratings: Load(/data/ratings.csv:PigStorage(',')) - scope-442
+
+#--------------------------------------------------
+# Map Reduce Plan                                  
+#--------------------------------------------------
+MapReduce node scope-497
+Map Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-17533009:org.apache.pig.impl.io.InterStorage) - scope-498
+|
+|---movies2016: Filter[bag] - scope-391
+    |   |
+    |   Equal To[boolean] - scope-394
+    |   |
+    |   |---Project[int][2] - scope-392
+    |   |
+    |   |---Constant(2016) - scope-393
+    |
+    |---movies: New For Each(false,false,false)[bag] - scope-390
+        |   |
+        |   Cast[int] - scope-382
+        |   |
+        |   |---Project[bytearray][0] - scope-381
+        |   |
+        |   Cast[chararray] - scope-385
+        |   |
+        |   |---Project[bytearray][1] - scope-384
+        |   |
+        |   Cast[int] - scope-388
+        |   |
+        |   |---Project[bytearray][2] - scope-387
+        |
+        |---movies: Load(/data/movies.csv:PigStorage(',')) - scope-380--------
+Global sort: false
+----------------
+
+MapReduce node scope-504
+Map Plan
+Union[tuple] - scope-505
+|
+|---movies2016genres: Local Rearrange[tuple]{int}(false) - scope-412
+|   |   |
+|   |   Project[int][0] - scope-413
+|   |
+|   |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-17533009:org.apache.pig.impl.io.InterStorage) - scope-501
+|
+|---movies2016genres: Local Rearrange[tuple]{int}(false) - scope-414
+    |   |
+    |   Project[int][0] - scope-415
+    |
+    |---genres: New For Each(false,false)[bag] - scope-407
+        |   |
+        |   Cast[int] - scope-402
+        |   |
+        |   |---Project[bytearray][0] - scope-401
+        |   |
+        |   Cast[chararray] - scope-405
+        |   |
+        |   |---Project[bytearray][1] - scope-404
+        |
+        |---genres: Load(/data/moviegenres.csv:PigStorage(',')) - scope-400--------
+Reduce Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp1580078260:org.apache.pig.impl.io.InterStorage) - scope-506
+|
+|---movies2016genres: Package(JoinPackager(true,true))[tuple]{int} - scope-411--------
+Global sort: false
+----------------
+
+MapReduce node scope-508
+Map Plan
+movies2016numgenres: Local Rearrange[tuple]{int}(false) - scope-541
+|   |
+|   Project[int][0] - scope-543
+|
+|---movies2016numgenres: New For Each(false,false)[bag] - scope-530
+    |   |
+    |   Project[int][0] - scope-531
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Initial)[tuple] - scope-532
+    |   |
+    |   |---Project[bag][1] - scope-533
+    |
+    |---Pre Combiner Local Rearrange[tuple]{Unknown} - scope-544
+        |
+        |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp1580078260:org.apache.pig.impl.io.InterStorage) - scope-507--------
+Combine Plan
+movies2016numgenres: Local Rearrange[tuple]{int}(false) - scope-545
+|   |
+|   Project[int][0] - scope-547
+|
+|---movies2016numgenres: New For Each(false,false)[bag] - scope-534
+    |   |
+    |   Project[int][0] - scope-535
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Intermediate)[tuple] - scope-536
+    |   |
+    |   |---Project[bag][1] - scope-537
+    |
+    |---movies2016numgenres: Package(CombinerPackager)[tuple]{int} - scope-540--------
+Reduce Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-2091801562:org.apache.pig.impl.io.InterStorage) - scope-509
+|
+|---movies2016numgenres: New For Each(false,false)[bag] - scope-428
+    |   |
+    |   Project[int][0] - scope-423
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Final)[long] - scope-426
+    |   |
+    |   |---Project[bag][1] - scope-538
+    |
+    |---movies2016numgenres: Package(CombinerPackager)[tuple]{int} - scope-420--------
+Global sort: false
+----------------
+
+MapReduce node scope-512
+Map Plan
+Union[tuple] - scope-513
+|
+|---movies2016total: Local Rearrange[tuple]{int}(false) - scope-433
+|   |   |
+|   |   Project[int][0] - scope-434
+|   |
+|   |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-17533009:org.apache.pig.impl.io.InterStorage) - scope-499
+|
+|---movies2016total: Local Rearrange[tuple]{int}(false) - scope-435
+    |   |
+    |   Project[int][0] - scope-436
+    |
+    |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-2091801562:org.apache.pig.impl.io.InterStorage) - scope-510--------
+Reduce Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp434849051:org.apache.pig.impl.io.InterStorage) - scope-514
+|
+|---movies2016total: Package(JoinPackager(true,true))[tuple]{int} - scope-432--------
+Global sort: false
+----------------
+
+MapReduce node scope-528
+Map Plan
+Union[tuple] - scope-529
+|
+|---movies2016totalfinal: Local Rearrange[tuple]{int}(false) - scope-480
+|   |   |
+|   |   Project[int][0] - scope-481
+|   |
+|   |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp434849051:org.apache.pig.impl.io.InterStorage) - scope-515
+|
+|---movies2016totalfinal: Local Rearrange[tuple]{int}(false) - scope-482
+    |   |
+    |   Project[int][0] - scope-483
+    |
+    |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-1772969016:org.apache.pig.impl.io.InterStorage) - scope-526--------
+Reduce Plan
+final: Store(fakefile:org.apache.pig.builtin.PigStorage) - scope-496
+|
+|---final: New For Each(false,false,false,false)[bag] - scope-495
+    |   |
+    |   Project[int][0] - scope-487
+    |   |
+    |   Project[chararray][1] - scope-489
+    |   |
+    |   Project[long][4] - scope-491
+    |   |
+    |   Project[long][6] - scope-493
+    |
+    |---movies2016totalfinal: Package(JoinPackager(true,true))[tuple]{int} - scope-479--------
+Global sort: false
+----------------
+
+MapReduce node scope-520
+Map Plan
+Union[tuple] - scope-521
+|
+|---movies2016ratings: Local Rearrange[tuple]{int}(false) - scope-459
+|   |   |
+|   |   Project[int][0] - scope-460
+|   |
+|   |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-17533009:org.apache.pig.impl.io.InterStorage) - scope-517
+|
+|---movies2016ratings: Local Rearrange[tuple]{int}(false) - scope-461
+    |   |
+    |   Project[int][1] - scope-462
+    |
+    |---ratings: New For Each(false,false,false,false)[bag] - scope-454
+        |   |
+        |   Cast[int] - scope-444
+        |   |
+        |   |---Project[bytearray][0] - scope-443
+        |   |
+        |   Cast[int] - scope-447
+        |   |
+        |   |---Project[bytearray][1] - scope-446
+        |   |
+        |   Cast[double] - scope-450
+        |   |
+        |   |---Project[bytearray][2] - scope-449
+        |   |
+        |   Project[bytearray][3] - scope-452
+        |
+        |---ratings: Load(/data/ratings.csv:PigStorage(',')) - scope-442--------
+Reduce Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-1311334002:org.apache.pig.impl.io.InterStorage) - scope-522
+|
+|---movies2016ratings: Package(JoinPackager(true,true))[tuple]{int} - scope-458--------
+Global sort: false
+----------------
+
+MapReduce node scope-524
+Map Plan
+movies2016numratings: Local Rearrange[tuple]{int}(false) - scope-559
+|   |
+|   Project[int][0] - scope-561
+|
+|---movies2016numratings: New For Each(false,false)[bag] - scope-548
+    |   |
+    |   Project[int][0] - scope-549
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Initial)[tuple] - scope-550
+    |   |
+    |   |---Project[bag][1] - scope-551
+    |
+    |---Pre Combiner Local Rearrange[tuple]{Unknown} - scope-562
+        |
+        |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-1311334002:org.apache.pig.impl.io.InterStorage) - scope-523--------
+Combine Plan
+movies2016numratings: Local Rearrange[tuple]{int}(false) - scope-563
+|   |
+|   Project[int][0] - scope-565
+|
+|---movies2016numratings: New For Each(false,false)[bag] - scope-552
+    |   |
+    |   Project[int][0] - scope-553
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Intermediate)[tuple] - scope-554
+    |   |
+    |   |---Project[bag][1] - scope-555
+    |
+    |---movies2016numratings: Package(CombinerPackager)[tuple]{int} - scope-558--------
+Reduce Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp1000561002/tmp-1772969016:org.apache.pig.impl.io.InterStorage) - scope-525
+|
+|---movies2016numratings: New For Each(false,false)[bag] - scope-475
+    |   |
+    |   Project[int][0] - scope-470
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Final)[long] - scope-473
+    |   |
+    |   |---Project[bag][1] - scope-556
+    |
+    |---movies2016numratings: Package(CombinerPackager)[tuple]{int} - scope-467--------
+Global sort: false
+----------------

@@ -1,0 +1,20 @@
+(i)
+    (a)
+Maps    Reduces     Alias                                                           Feature
+2       1           comedy_or_scifi,comedy_or_scifi2015,genres,movies,movies2015    HASH_JOIN
+1       1                                                                           DISTINCT
+1       1           comedy_or_scifi2015                                             SAMPLER
+1       1           comedy_or_scifi2015                                             ORDER_BY
+
+
+    (b)
+comedy_or_scifi2015: {
+    movies2015::movieid: int,
+    movies2015::title: chararray,
+    movies2015::year: int,
+    comedy_or_scifi::movieid: int,
+    comedy_or_scifi::genre: chararray
+}
+
+    (c)
+2018-04-13 8:25:18,919 [main] INFO  org.apache.pig.Main - Pig script completed in 1 minute, 26 seconds and 907 milliseconds (86907 ms)
