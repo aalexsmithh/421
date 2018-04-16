@@ -10,8 +10,8 @@ movies = LOAD '/data/movies.csv'
 	);
 
 moviesperyear = GROUP movies BY year;
-yearcount = FOREACH moviesperyear GENERATE group, COUNT (movies);
-yearcount = ORDER yearcount BY $0;
+yearcount = FOREACH moviesperyear GENERATE group, COUNT(movies) as nummovies;
+yearcount = ORDER yearcount BY group;
 
--- Send the output to the screen.
-dump yearcount;
+--store into a file called q1
+STORE ordered INTO 'q1';
